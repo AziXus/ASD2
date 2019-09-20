@@ -6,7 +6,11 @@ GraphFromImage::GraphFromImage(const bitmap_image& i) : image(i) {
 
 // throws std::out_of_range
 GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
-    /* A IMPLEMENTER */
+    Iterable adj;
+    for (int w = 0; w < V(); w++)
+        if(adjMatrix.at(v)[w])
+            adj.push_back(w);
+    return adj;
 }
 
 // throws std::out_of_range
@@ -25,5 +29,5 @@ int GraphFromImage::y(int idx) const {
 }
 
 int GraphFromImage::V() const {
-    /* A IMPLEMENTER */
+    return image.height() * image.width();
 }
