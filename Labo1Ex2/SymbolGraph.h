@@ -15,6 +15,8 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <set>
+#include <map>
 
 #include "Util.h"
 
@@ -24,7 +26,7 @@ class SymbolGraph
     typedef GraphType Graph; 
 private:
     Graph* g;
-    std::vector<std::string> symbole;
+    std::map<std::string, int> symbole;
     typedef std::pair<int,int> Edge;
     std::vector<Edge> edgeList;
     // A IMPLEMENTER: vos structures privées ici.
@@ -39,10 +41,11 @@ public:
     //creation du SymbolGraph a partir du fichier movies.txt
     SymbolGraph(const std::string& filename) {
         //Graph SymbolGraph;
+        
         /* A IMPLEMENTER */
         // Indication: nous autorisons une double lecture du fichier.
-        unsigned Film = 0;
-        unsigned Acteur = 1;
+        unsigned film = 0;
+        unsigned acteur = 0;
         std::string line;
         //Construction du graphe avec les strings
         std::ifstream s(filename);
@@ -50,27 +53,25 @@ public:
         {
             auto names = split(line,'/');
             
-            for( auto name : names ) {
-                std::cout << name << " ";
+            for(auto name : names ) {
                 if(!contains(name)){
-                    symbole.push_back(name);
-                    edgeList.push_back(std::make_pair(Film,Acteur));
-                    Acteur++;
+                    symbole.insert(std::pair<std::string, int>(name, acteur));
+                    edgeList.push_back(std::make_pair(film,acteur));
+                    acteur++;
                 }
                 else{
-                    size_t temp = Acteur;
-                    Acteur = index(name);
-                    edgeList.push_back(std::make_pair(Film,Acteur));
-                    Acteur = temp;
+                    size_t temp = acteur;
+                    acteur = index(name);
+                    edgeList.push_back(std::make_pair(film,acteur));
+                    acteur = temp;
                 }
-                Film = Acteur;
-                Acteur++;
             }
-            std::cout << std::endl;
+            film = acteur;
         }
-        /*for(Edge edge : edgeList ){
-            SymbolGraph->addEdge(edge.first,edge.second);
-        }*/
+        g =  new GraphType(edgeList.size()*2);
+        for(Edge edge : edgeList ){
+            g->addEdge(edge.first,edge.second);
+        }
         // exemple de lecture du fichier, ligne par ligne puis element par element (separe par des /)
         //Construction du graphe avec les num
 
@@ -80,33 +81,30 @@ public:
     
     //verifie la presence d'un symbole
     bool contains(const std::string& name) const {
-        for(auto name2 : symbole)
-            if(name2 == name)
-                return true;
+        auto it = symbole.find(name);
+        if(it != symbole.end())
+            return true;
         return false;
     }
     
     //index du sommet correspondant au symbole
     int index(const std::string& name) const {
-         size_t num = 0; 
-         for(auto name2 : symbole){
-            if(name2 == name)
-                return num;
-            num++;
-         }
-        return num;
+        return symbole.at(name);
     }
     
     //symbole correspondant au sommet
     std::string symbol(int idx) const {
-        return symbole.at(idx);
+        for(auto it = symbole.begin(); it != symbole.end(); it++){
+            if(it->second == idx)
+                return it->first;
+        }
     }
 
     //symboles adjacents a un symbole
     std::vector<std::string> adjacent(const std::string& name) const {
         std::vector<std::string> adj;
         for(int i : g->adjacent(index(name))){
-            adj.push_back(symbole.at(i));
+            adj.push_back(symbol(i));
         }
         return adj;
     }
