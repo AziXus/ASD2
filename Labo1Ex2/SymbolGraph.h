@@ -15,107 +15,113 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <map>
 
 #include "Util.h"
 
 template<typename GraphType>
 class SymbolGraph
 {
-    typedef GraphType Graph; 
+    typedef GraphType Graph;
 private:
     Graph* g;
-    std::vector<std::string> symbole;
-    typedef std::pair<int,int> Edge;
-    std::vector<Edge> edgeList;
+//    typedef std::pair<std::string, int> Vertex;
+    std::vector<std::string> symboles;
+    std::map<std::string, int> indices;
     // A IMPLEMENTER: vos structures privées ici.
-    
+
 public:
-    
+
     ~SymbolGraph()
     {
-        delete g; 
-    }            
-    
+        delete g;
+    }
+
     //creation du SymbolGraph a partir du fichier movies.txt
     SymbolGraph(const std::string& filename) {
-        //Graph SymbolGraph;
         /* A IMPLEMENTER */
         // Indication: nous autorisons une double lecture du fichier.
-        unsigned Film = 0;
-        unsigned Acteur = 1;
+
+        // exemple de lecture du fichier, ligne par ligne puis element par element (separe par des /)
+        int idx = 0;
+
         std::string line;
-        //Construction du graphe avec les strings
+
         std::ifstream s(filename);
         while (std::getline(s, line))
         {
             auto names = split(line,'/');
-            
+
             for( auto name : names ) {
-                std::cout << name << " ";
-                if(!contains(name)){
-                    symbole.push_back(name);
-                    edgeList.push_back(std::make_pair(Film,Acteur));
-                    Acteur++;
+                if (name == "Bacon, Kevin") {
+                    int wfds = 0;
                 }
-                else{
-                    size_t temp = Acteur;
-                    Acteur = index(name);
-                    edgeList.push_back(std::make_pair(Film,Acteur));
-                    Acteur = temp;
+                if (!contains(name)) {
+                    indices[name] = idx;
+                    symboles.push_back(name);
+                    ++idx;
                 }
-                Film = Acteur;
-                Acteur++;
             }
-            std::cout << std::endl;
         }
-        /*for(Edge edge : edgeList ){
-            SymbolGraph->addEdge(edge.first,edge.second);
-        }*/
-        // exemple de lecture du fichier, ligne par ligne puis element par element (separe par des /)
-        //Construction du graphe avec les num
+
+        //Retourne en début de fichier et clear eof flag
+        s.clear();
+        s.seekg(0, std::ios::beg);
+
+        //Graphe de taille du nombre de symboles
+        g = new Graph(symboles.size());
+
+        //On ajoute les arêtes
+        while (std::getline(s, line))
+        {
+            auto names = split(line,'/');
+
+            int idxFilm = index(names[0]);
+            for(size_t i = 1; i < names.size(); ++i) {
+                g->addEdge(idxFilm, index(names[i]));
+            }
+
+        }
 
         s.close();
-        //g = &SymbolGraph;
-    }
-    
-    //verifie la presence d'un symbole
-    bool contains(const std::string& name) const {
-        for(auto name2 : symbole)
-            if(name2 == name)
-                return true;
-        return false;
-    }
-    
-    //index du sommet correspondant au symbole
-    int index(const std::string& name) const {
-         size_t num = 0; 
-         for(auto name2 : symbole){
-            if(name2 == name)
-                return num;
-            num++;
-         }
-        return num;
-    }
-    
-    //symbole correspondant au sommet
-    std::string symbol(int idx) const {
-        return symbole.at(idx);
     }
 
-    //symboles adjacents a un symbole
+    //verifie la presence d'un symbole
+    bool contains(const std::string& name) const {
+        /* A IMPLEMENTER */
+        return indices.find(name) != indices.end();
+    }
+
+    //index du sommet correspondant au symbole
+    int index(const std::string& name) const {
+        /* A IMPLEMENTER */
+        return indices.at(name);
+    }
+
+    //symbole correspondant au sommet
+    std::string symbol(int idx) const {
+        /* A IMPLEMENTER */
+        return symboles.at(idx);
+    }
+
+    //indices adjacents a un symbole
     std::vector<std::string> adjacent(const std::string& name) const {
-        std::vector<std::string> adj;
-        for(int i : g->adjacent(index(name))){
-            adj.push_back(symbole.at(i));
+        /* A IMPLEMENTER */
+        std::vector<std::string> adjacents;
+
+        for(int w : g->adjacent(index(name))) {
+            adjacents.push_back(symbol(w));
         }
-        return adj;
+
+        return adjacents;
     }
-    
+
     const Graph& G() const {
-        return *g; 
+        return *g;
     }
-    
+
 };
 
 
 #endif	/* SYMBOLGRAPH_H */
+
