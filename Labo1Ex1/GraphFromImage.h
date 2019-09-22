@@ -40,6 +40,8 @@ public:
 // ELEMENTS PRIVES: LIBRE D'AJOUTER DES ELEMENTS
 private:
     const bitmap_image& image;
+
+    bool estMemeCouleur(int idx1, int idx2) const;
     // **** ___VOTRE CODE CI-DESSOUS___ **** //
 };
 

@@ -42,19 +42,18 @@ int main(int argc, char** argv) {
     dfs.iterativeVisit( G.idx(50, 50), [&G, &image] (int v) {
         image.set_pixel( G.x(v), G.y(v), 150, 220, 255);
     });
-    
+
     //on sauve l'image modifiee
     image.save_image("output.bmp");
-    
-    
+
     //on charge l'image temoin pour verifier notre code
     bitmap_image image_gold("goal.bmp");
-    
+
     if(image.psnr(image_gold) < 1000000)
         std::cout  << "test failed - psnr = " << image.psnr(image_gold)  << ") \n";
     else
         std::cout << "test succeeded - image is identical to goal.bmp\n";
-    
+
     return (EXIT_SUCCESS);
     
 }

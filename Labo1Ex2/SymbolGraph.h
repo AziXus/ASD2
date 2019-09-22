@@ -23,25 +23,26 @@
 template<typename GraphType>
 class SymbolGraph
 {
-    typedef GraphType Graph; 
+    typedef GraphType Graph;
 private:
     Graph* g;
     std::map<std::string, int> symbole;
+    std::vector<std::string> indexSymbole;
     typedef std::pair<int,int> Edge;
     std::vector<Edge> edgeList;
     // A IMPLEMENTER: vos structures privées ici.
-    
+
 public:
-    
+
     ~SymbolGraph()
     {
-        delete g; 
-    }            
-    
+        delete g;
+    }
+
     //creation du SymbolGraph a partir du fichier movies.txt
     SymbolGraph(const std::string& filename) {
         //Graph SymbolGraph;
-        
+
         /* A IMPLEMENTER */
         // Indication: nous autorisons une double lecture du fichier.
         unsigned film = 0;
@@ -52,10 +53,11 @@ public:
         while (std::getline(s, line))
         {
             auto names = split(line,'/');
-            
+
             for(auto name : names ) {
                 if(!contains(name)){
                     symbole.insert(std::pair<std::string, int>(name, acteur));
+                    indexSymbole.push_back(name);
                     edgeList.push_back(std::make_pair(film,acteur));
                     acteur++;
                 }
@@ -68,7 +70,9 @@ public:
             }
             film = acteur;
         }
-        g =  new GraphType(edgeList.size()*2);
+
+        g = new GraphType(edgeList.size()*2);
+
         for(Edge edge : edgeList ){
             g->addEdge(edge.first,edge.second);
         }
@@ -78,26 +82,20 @@ public:
         s.close();
         //g = &SymbolGraph;
     }
-    
+
     //verifie la presence d'un symbole
     bool contains(const std::string& name) const {
-        auto it = symbole.find(name);
-        if(it != symbole.end())
-            return true;
-        return false;
+        return symbole.find(name) != symbole.end();
     }
-    
+
     //index du sommet correspondant au symbole
     int index(const std::string& name) const {
         return symbole.at(name);
     }
-    
+
     //symbole correspondant au sommet
     std::string symbol(int idx) const {
-        for(auto it = symbole.begin(); it != symbole.end(); it++){
-            if(it->second == idx)
-                return it->first;
-        }
+        return indexSymbole.at(idx);
     }
 
     //symboles adjacents a un symbole
@@ -108,11 +106,11 @@ public:
         }
         return adj;
     }
-    
+
     const Graph& G() const {
-        return *g; 
+        return *g;
     }
-    
+
 };
 
 
