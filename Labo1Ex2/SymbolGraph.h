@@ -18,6 +18,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <unordered_map>
 
 #include "Util.h"
 
@@ -29,7 +30,7 @@ private:
     Graph* g;
     //Initialisation d'une structure map pour les symboles pour pouvoir stocker le numéro du sommet
     //correspondant au symbole
-    std::map<std::string, int> symbole;
+    std::unordered_map<std::string, int> symbole;
     //Initialisation d'un vecteur indexSymbole pour trouver rapidement l'index d'un symbole.
     std::vector<std::string> indexSymbole;
     typedef std::pair<int,int> Edge;
@@ -64,12 +65,8 @@ public:
                     acteur++;
                 }
                 else{
-                    //enregistrement de la valeur de l'acteur actuel pour ne pas recommencer le comptage
-                    size_t temp = acteur;
                     //Recherche de l'index de l'acteur car il est déjà dans le graphe
-                    acteur = index(name);
-                    edgeList.push_back(std::make_pair(film,acteur));
-                    acteur = temp;
+                    edgeList.push_back(std::make_pair(film,index(name)));
                 }
             }
             //On attribue à film la valeur acteur car le nom du film commence toujours une ligne
