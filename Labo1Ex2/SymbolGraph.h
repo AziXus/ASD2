@@ -42,7 +42,10 @@ public:
         delete g;
     }
 
-    //creation du SymbolGraph a partir du fichier movies.txt
+    /**
+     * création du SymbolGraph a partir du fichier movies.txt
+     * @param filename string conteant le nom du fichier à lire
+     */
     SymbolGraph(const std::string& filename) {
         //Création d'un vecteur d'arrête pour stocker les différentes arrêtes du graphe temporairement
         std::vector<Edge> edgeList;
@@ -82,22 +85,38 @@ public:
         s.close();
     }
 
-    //verifie la presence d'un symbole
+    /**
+     * Vérifie la présence d'un symbole
+     * @param name string étant le symbole à trouver dans le graphe
+     * @return si le symbole existe retourne true sinon false
+     */
     bool contains(const std::string& name) const {
         return symbole.find(name) != symbole.end();
     }
 
-    //index du sommet correspondant au symbole
+    /**
+     * Trouve l'index du sommet correspondant au symbole 
+     * @param name string étant le symbole recherché
+     * @return un entier étant l'index du symbole
+     */
     int index(const std::string& name) const {
         return symbole.at(name);
     }
 
-    //symbole correspondant au sommet
+    /**
+     * Trouve le symbole correspondant à l'index d'un sommet
+     * @param idx entier étant l'index du sommet
+     * @return string étant le symbole cherché
+     */
     std::string symbol(int idx) const {
         return indexSymbole.at(idx);
     }
 
-    //symboles adjacents a un symbole
+    /**
+     * Trouve les symboles adjacents à un symbole
+     * @param name string étant le symbole duquel il faut trouvé les adjacents
+     * @return une liste de string contenant les symboles adjacents
+     */
     std::vector<std::string> adjacent(const std::string& name) const {
         std::vector<std::string> adj;
         for(int i : g->adjacent(index(name))){
