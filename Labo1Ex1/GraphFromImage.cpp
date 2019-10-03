@@ -23,7 +23,7 @@ GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
             adj.push_back(v - (int)image.width());
     }
 
-    if (y(v) < image.height() - 1) { //Pixel inférieur (pas sur la dernière ligne)
+    if (y(v) < (int)image.height() - 1) { //Pixel inférieur (pas sur la dernière ligne)
         if (estMemeCouleur(v, v + (int)image.width()))
             adj.push_back(v + (int)image.width());
     }
@@ -33,7 +33,7 @@ GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
             adj.push_back(v - 1);
     }
 
-    if (x(v) < image.width() - 1) { //Pixel de droite (pas sur la dernière colonne)
+    if (x(v) < (int)image.width() - 1) { //Pixel de droite (pas sur la dernière colonne)
         if (estMemeCouleur(v, v + 1))
             adj.push_back(v + 1);
     }
