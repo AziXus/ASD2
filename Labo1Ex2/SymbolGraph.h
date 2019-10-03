@@ -44,7 +44,7 @@ public:
 
     /**
      * création du SymbolGraph a partir du fichier movies.txt
-     * @param filename string conteant le nom du fichier à lire
+     * @param filename string contenant le nom du fichier à lire
      */
     SymbolGraph(const std::string& filename) {
         //Création d'un vecteur d'arrête pour stocker les différentes arrêtes du graphe temporairement
@@ -72,7 +72,7 @@ public:
                     edgeList.push_back(std::make_pair(film,index(name)));
                 }
             }
-            //On attribue à film la valeur acteur car le nom du film commence toujours une ligne
+            //On attribue à film la valeur d'acteur car un film est toujours en début de ligne
             film = acteur;
         }
         //Initialisation du graphe
@@ -114,7 +114,7 @@ public:
 
     /**
      * Trouve les symboles adjacents à un symbole
-     * @param name string étant le symbole duquel il faut trouvé les adjacents
+     * @param name string étant le symbole auquel il faut trouver les adjacents
      * @return une liste de string contenant les symboles adjacents
      */
     std::vector<std::string> adjacent(const std::string& name) const {
