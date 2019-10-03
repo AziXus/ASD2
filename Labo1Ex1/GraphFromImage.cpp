@@ -1,11 +1,23 @@
+/* 
+ * File:   GraphFromImage.cpp
+ * Author: Olivier Cuisenaire
+ *
+ * Created on 2. octobre 2014, 12:09
+ * 
+ */
 #include "GraphFromImage.h"
 
 GraphFromImage::GraphFromImage(const bitmap_image& i) : image(i) {
 }
 
-// throws std::out_of_range
-//Retourne les pixels adjacents de la meme couleur
+/**
+ * Retourne les pixels adjacents de la meme couleur
+ * @param v
+ * throws std::out_of_ranges
+ * @return 
+ */
 GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
+    //Si l'entier demandé est plus grand que la taille du graphe l'index est invalide
     if (v >= V())
         throw std::out_of_range("index invalide");
 
@@ -34,7 +46,13 @@ GraphFromImage::Iterable GraphFromImage::adjacent(int v) const {
     return adj;
 }
 
-// throws std::out_of_range
+/**
+ * 
+ * @param x
+ * @param y
+ * throws std::out_of_range
+ * @return 
+ */
 int GraphFromImage::idx(int x, int y) const {
     //Retourner un index fonctionnel pour le parcours utilisant un vecteur "marked"
 
@@ -47,7 +65,12 @@ int GraphFromImage::idx(int x, int y) const {
     return y * (int)image.width() + x;
 }
 
-// throws std::out_of_range
+/**
+ * 
+ * @param idx
+ * throws std::out_of_range
+ * @return 
+ */
 int GraphFromImage::x(int idx) const {
     if (idx >= V())
         throw std::out_of_range("l'index est en dehors de l'image");
@@ -56,7 +79,12 @@ int GraphFromImage::x(int idx) const {
     return idx % (int)image.width();
 }
 
-// throws std::out_of_range
+/**
+ * 
+ * @param idx
+ * throws std::out_of_range
+ * @return 
+ */
 int GraphFromImage::y(int idx) const {
     if (idx >= V())
         throw std::out_of_range("l'index est en dehors de l'image");
@@ -69,6 +97,12 @@ int GraphFromImage::V() const {
     return (int)image.pixel_count();
 }
 
+/**
+ * 
+ * @param idx1
+ * @param idx2
+ * @return 
+ */
 bool GraphFromImage::estMemeCouleur(int idx1, int idx2) const {
     if (idx1 == idx2)
         return true;

@@ -2,10 +2,10 @@
  * File:   SymbolGraph.h
  * Author: Olivier Cuisenaire
  * Modified: Valentin Minder (2018), Raphaël Racine (2018), Antoine Rochat (2019)
- * Müller Robin, , Teixeira Carvalho Stéphane
+ * Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  *
  * Created on 26. septembre 2014, 15:08
- * Description: Classe permettant de de créer un graphe utilisant comme sommet des symboles
+ * Description: Classe permettant de créer un graphe utilisant comme sommet des symboles
  */
 #ifndef SYMBOLGRAPH_H
 #define	SYMBOLGRAPH_H
