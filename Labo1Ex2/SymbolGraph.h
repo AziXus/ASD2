@@ -28,7 +28,7 @@ class SymbolGraph
     typedef GraphType Graph;
 private:
     Graph* g;
-    //Initialisation d'une structure map pour les symboles pour pouvoir stocker le numéro du sommet
+    //Initialisation d'une structure unordered_map pour les symboles pour pouvoir stocker le numéro du sommet
     //correspondant au symbole
     std::unordered_map<std::string, int> symbole;
     //Initialisation d'un vecteur indexSymbole pour trouver rapidement un symbole en donnant l'index.
