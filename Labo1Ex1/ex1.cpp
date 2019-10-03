@@ -27,7 +27,14 @@ int main(int argc, char** argv) {
     DFS<GraphFromImage> dfs(G);
 
     //Question BONUS: Pourquoi n'utilisons-nous pas la methode visite pour parcourir l'image ?
-    
+    /*
+     * La fonction visit est l'implémentation d'un parcours en profondeur récursif. Si on essaie
+     * de remplacer iterativeVisit par visit, le programme ne se complète pas et affiche
+     * "Segmentation fault". Comme il y a beaucoup de sommets dans le graphe, il y a une profondeur
+     * de récursion trop élevé et la taille maximale du stack du programme est dépassée.
+     * L'utilisation d'une variable stack (comme dans iterativeVisit) permet de régler ce problème.
+     */
+
     //on colore le centre de la pomme
     dfs.iterativeVisit( G.idx(250, 400), [&G, &image] (int v) {
         image.set_pixel( G.x(v), G.y(v), 250, 150, 64);

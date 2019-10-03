@@ -41,8 +41,9 @@ public:
 private:
     const bitmap_image& image;
 
-    bool estMemeCouleur(int idx1, int idx2) const;
     // **** ___VOTRE CODE CI-DESSOUS___ **** //
+    //Calcul si deux indexes de pixels ont la même couleur
+    bool estMemeCouleur(int idx1, int idx2) const;
 };
 
 #endif	/* GRAPHFROMIMAGE_H */
