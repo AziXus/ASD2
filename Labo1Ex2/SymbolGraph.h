@@ -63,8 +63,12 @@ public:
                 if(!contains(name)){
                     symbole.insert(std::pair<std::string, int>(name, acteur));
                     indexSymbole.push_back(name);
-                    //Création de l'arête à ajouter entre film et acteur
-                    edgeList.push_back(std::make_pair(film,acteur));
+                    //Si l'acteur est différent de film on ajoute une arête sinon cela veut dire que c'est un 
+                    //film qu'on ajoute donc pas d'arête à ajouter
+                    if(acteur != film){
+                         //Création de l'arête à ajouter entre film et acteur
+                        edgeList.push_back(std::make_pair(film,acteur));
+                    }
                     acteur++;
                 }
                 else{
