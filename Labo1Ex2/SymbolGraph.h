@@ -80,7 +80,7 @@ public:
             idxFilm = idxActeur;
         }
         //Initialisation du graphe
-        g = new GraphType(indexSymbole.size());
+        g = new GraphType((int)indexSymbole.size());
         //Boucle ajoutant toutes les arrêtes créées lors de la lecture du fichier dans le graphe
         for(Edge edge : edgeList ){
             g->addEdge(edge.first,edge.second);
