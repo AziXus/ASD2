@@ -63,7 +63,7 @@ public:
                 if(!contains(name)){
                     symbole.insert(std::pair<std::string, int>(name, idxActeur));
                     indexSymbole.push_back(name);
-                    //Si l'index d'acteur est différent de celui film on ajoute une arête 
+                    //Si l'index d'acteur est différent de celui de film on ajoute une arête 
                     //sinon cela veut dire que c'est un film et donc pas d'arête à ajouter dans ce cas
                     if(idxActeur != idxFilm){
                          //Création de l'arête à ajouter entre film et acteur
