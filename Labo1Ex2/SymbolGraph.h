@@ -49,8 +49,8 @@ public:
     SymbolGraph(const std::string& filename) {
         //Création d'un vecteur d'arrête pour stocker les différentes arrêtes du graphe temporairement
         std::vector<Edge> edgeList;
-        unsigned film = 0;//variable permettant de garder le numéro du dernier film ajouté au graphe
-        unsigned acteur = 0;//variable permettant de garder le numéro du dernier acteur ajouté au graphe
+        unsigned idxFilm = 0;//variable permettant de garder le numéro du dernier film ajouté au graphe
+        unsigned idxActeur = 0;//variable permettant de garder le numéro du dernier acteur ajouté au graphe
         std::string line;
         std::ifstream s(filename);
         //Construction du graphe avec les strings
@@ -61,23 +61,23 @@ public:
             for(auto name : names ){
                 //Si le symbole n'est pas encore contenu dans le graphe on l'ajoute sinon on ne lui ajoute que sa nouvelle arrête
                 if(!contains(name)){
-                    symbole.insert(std::pair<std::string, int>(name, acteur));
+                    symbole.insert(std::pair<std::string, int>(name, idxActeur));
                     indexSymbole.push_back(name);
-                    //Si l'acteur est différent de film on ajoute une arête sinon cela veut dire que c'est un 
-                    //film qu'on ajoute donc pas d'arête à ajouter
-                    if(acteur != film){
+                    //Si l'index d'acteur est différent de celui film on ajoute une arête 
+                    //sinon cela veut dire que c'est un film et donc pas d'arête à ajouter dans ce cas
+                    if(idxActeur != idxFilm){
                          //Création de l'arête à ajouter entre film et acteur
-                        edgeList.push_back(std::make_pair(film,acteur));
+                        edgeList.push_back(std::make_pair(idxFilm,idxActeur));
                     }
-                    acteur++;
+                    idxActeur++;
                 }
                 else{
                     //Recherche de l'index de l'acteur car il est déjà dans le graphe
-                    edgeList.push_back(std::make_pair(film,index(name)));
+                    edgeList.push_back(std::make_pair(idxFilm,index(name)));
                 }
             }
             //On attribue à film la valeur d'acteur car un film est toujours en début de ligne
-            film = acteur;
+            idxFilm = idxActeur;
         }
         //Initialisation du graphe
         g = new GraphType(indexSymbole.size());
