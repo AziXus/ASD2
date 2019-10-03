@@ -31,7 +31,7 @@ private:
     //Initialisation d'une structure map pour les symboles pour pouvoir stocker le numéro du sommet
     //correspondant au symbole
     std::unordered_map<std::string, int> symbole;
-    //Initialisation d'un vecteur indexSymbole pour trouver rapidement l'index d'un symbole.
+    //Initialisation d'un vecteur indexSymbole pour trouver rapidement un symbole en donnant l'index.
     std::vector<std::string> indexSymbole;
     typedef std::pair<int,int> Edge;
 
@@ -49,8 +49,8 @@ public:
         unsigned film = 0;//variable permettant de garder le numéro du dernier film ajouté au graphe
         unsigned acteur = 0;//variable permettant de garder le numéro du dernier acteur ajouté au graphe
         std::string line;
-        //Construction du graphe avec les strings
         std::ifstream s(filename);
+        //Construction du graphe avec les strings
         while (std::getline(s, line))
         {
             auto names = split(line,'/');
