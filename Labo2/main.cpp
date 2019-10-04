@@ -51,8 +51,16 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
-
-    /* A IMPLEMENTER */
+    string file("prerequis.txt");
+    string file("prerequis2.txt");
+    try{
+        SymbolGraph<DiGraph> SG(file, ',');
+    
+    for(int i = 0; i < SG.G().V(); i++){
+        cout << SG.symbol(i) << endl;
+    }
+    }catch()
+    
     
     return EXIT_SUCCESS;
 }

@@ -20,7 +20,6 @@ template < typename GraphType >
 class TopologicalSort {
 private:
 	/* A DEFINIR */
-    
 public:
     //constructeur
     TopologicalSort(const GraphType & g) {
