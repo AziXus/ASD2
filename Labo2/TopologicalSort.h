@@ -12,6 +12,7 @@
 #define ASD2_TopologicalSort_h
 
 #include "DirectedCycle.h"
+#include "ParcoursEnProfondeur.h"
 #include <list>
 #include <vector>
 #include <exception>
@@ -20,17 +21,28 @@ template < typename GraphType >
 class TopologicalSort {
 private:
 	/* A DEFINIR */
+	std::vector<int> topologie;
+//	std::vector<int> dfsPostInverse;
+
 public:
     //constructeur
     TopologicalSort(const GraphType & g) {
-        /* A IMPLEMENTER */
         /* vous devez verifier la presence d'un cycle, auquel cas il faut lancer une  GraphNotDAGException*/
+        DirectedCycle<GraphType> dc(g);
+
+        if (dc.HasCycle())
+            throw GraphNotDAGException(dc.Cycle());
+
+        DFS<GraphType> dfs(g);
+
+        dfs.visitGraph([] (int){}, [this](int v) { this->topologie.push_back(v); });
     }
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
     const std::vector<int>& Order() {
         /* A IMPLEMENTER */
         //return ...
+        return topologie;
     }
     
     //exception si le graphe n'est pas un DAG (Directed Acyclic Graph)
