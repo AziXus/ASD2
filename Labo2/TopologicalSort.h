@@ -40,8 +40,6 @@ public:
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
     const std::vector<int>& Order() {
-        /* A IMPLEMENTER */
-        //return ...
         return topologie;
     }
     

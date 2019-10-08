@@ -1,10 +1,8 @@
 /* 
  * File:   GraphFromImage.h
  * Author: Olivier Cuisenaire
- * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  *
  * Created on 2. octobre 2014, 12:09
- * Description: ...
  */
 
 #ifndef GRAPHFROMIMAGE_H
@@ -42,10 +40,7 @@ public:
 // ELEMENTS PRIVES: LIBRE D'AJOUTER DES ELEMENTS
 private:
     const bitmap_image& image;
-
     // **** ___VOTRE CODE CI-DESSOUS___ **** //
-    //Calcul si deux indexes de pixels ont la même couleur
-    bool estMemeCouleur(int idx1, int idx2) const;
 };
 
 #endif	/* GRAPHFROMIMAGE_H */
