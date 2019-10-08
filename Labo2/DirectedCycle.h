@@ -49,18 +49,16 @@ public:
 		stacked.resize(this->g->V(), 0);
 
 		for (int v = 0; v < this->g->V(); ++v) {
-            if(!marked[v])
-                detectCycle(v);
+            detectCycle(v);
 
 		    if (foundCycle)
                 cycles.push_back(v);
 
-//		    foundCycle = false;
-//            std::fill(marked.begin(), marked.end(), false);
-//            std::fill(stacked.begin(), stacked.end(), false);
+		    foundCycle = false;
+            std::fill(marked.begin(), marked.end(), false);
+            std::fill(stacked.begin(), stacked.end(), false);
 		}
 	}
-
 
 	
 	//indique la presence d'un cycle
