@@ -73,8 +73,5 @@ int main(int argc, const char * argv[]) {
     }catch(std::exception){
         cout << "caught" << endl;
     }
-
-
-
     return EXIT_SUCCESS;
 }

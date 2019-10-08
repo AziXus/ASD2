@@ -2,10 +2,11 @@
  * File:   SymbolGraph.h
  * Author: Olivier Cuisenaire
  * Modified: Valentin Minder (2018), Raphaël Racine (2018), Antoine Rochat (2019)
+ * Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  *
  * Created on 26. septembre 2014, 15:08
+ * Description: Classe permettant de créer un graphe utilisant comme sommet des symboles
  */
-
 #ifndef SYMBOLGRAPH_H
 #define	SYMBOLGRAPH_H
 
@@ -15,7 +16,9 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include <set>
 #include <map>
+#include <unordered_map>
 
 #include "Util.h"
 
@@ -25,10 +28,12 @@ class SymbolGraph
     typedef GraphType Graph;
 private:
     Graph* g;
-//    typedef std::pair<std::string, int> Vertex;
-    std::vector<std::string> symboles;
-    std::map<std::string, int> indices;
-    // A IMPLEMENTER: vos structures privées ici.
+    //Initialisation d'une structure unordered_map pour les symboles pour pouvoir stocker le numéro du sommet
+    //correspondant au symbole
+    std::unordered_map<std::string, int> symbole;
+    //Initialisation d'un vecteur indexSymbole pour trouver rapidement un symbole en donnant l'index.
+    std::vector<std::string> indexSymbole;
+    typedef std::pair<int,int> Edge;
 
 public:
 
@@ -37,80 +42,84 @@ public:
         delete g;
     }
 
-    //creation du SymbolGraph a partir du fichier movies.txt
+    /**
+     * création du SymbolGraph a partir du fichier movies.txt
+     * @param filename string contenant le nom du fichier à lire
+     */
     SymbolGraph(const std::string& filename) {
-        /* A IMPLEMENTER */
-        // Indication: nous autorisons une double lecture du fichier.
-
-        // exemple de lecture du fichier, ligne par ligne puis element par element (separe par des /)
-        int idx = 0;
-
+        //Création d'un vecteur d'arrête pour stocker les différentes arrêtes du graphe temporairement
+        std::vector<Edge> edgeList;
+        unsigned idxFilm = 0;//variable permettant de garder le numéro du dernier film ajouté au graphe
+        unsigned idxActeur = 0;//variable permettant de garder le numéro du dernier acteur ajouté au graphe
         std::string line;
-
         std::ifstream s(filename);
-        while (std::getline(s, line))
-        {
-            auto names = split(line,'/');
-
-            for( auto name : names ) {
-                if (name == "Bacon, Kevin") {
-                    int wfds = 0;
+        //Construction du graphe avec les strings
+            for(auto name : names ){
+                //Si le symbole n'est pas encore contenu dans le graphe on l'ajoute sinon on ne lui ajoute que sa nouvelle arrête
+                if(!contains(name)){
+                    symbole.insert(std::pair<std::string, int>(name, idxActeur));
+                    indexSymbole.push_back(name);
+                    //Si l'index d'acteur est différent de celui de film on ajoute une arête 
+                    //sinon cela veut dire que c'est un film et donc pas d'arête à ajouter dans ce cas
+                    if(idxActeur != idxFilm){
+                         //Création de l'arête à ajouter entre film et acteur
+                        edgeList.push_back(std::make_pair(idxFilm,idxActeur));
+                    }
+                    idxActeur++;
                 }
-                if (!contains(name)) {
-                    indices[name] = idx;
-                    symboles.push_back(name);
-                    ++idx;
+                else{
+                    //Recherche de l'index de l'acteur car il est déjà dans le graphe
+                    edgeList.push_back(std::make_pair(idxFilm,index(name)));
                 }
             }
-        }
-
-        //Retourne en début de fichier et clear eof flag
-        s.clear();
-        s.seekg(0, std::ios::beg);
-
-        //Graphe de taille du nombre de symboles
-        g = new Graph(symboles.size());
-
-        //On ajoute les arêtes
-        while (std::getline(s, line))
-        {
-            auto names = split(line,'/');
-
-            int idxFilm = index(names[0]);
-            for(size_t i = 1; i < names.size(); ++i) {
-                g->addEdge(idxFilm, index(names[i]));
-            }
-
+            //On attribue à film la valeur d'acteur car un film est toujours en début de ligne
+            idxFilm = idxActeur;
+                    //Initialisation du graphe
+        g = new GraphType((int)indexSymbole.size());
+        //Boucle ajoutant toutes les arrêtes créées lors de la lecture du fichier dans le graphe
+        for(Edge edge : edgeList ){
+            g->addEdge(edge.first,edge.second);
         }
 
         s.close();
-    }
-
-    //verifie la presence d'un symbole
+        }
+}
+    /**
+     * Vérifie la présence d'un symbole
+     * @param name string étant le symbole à trouver dans le graphe
+     * @return si le symbole existe retourne true sinon false
+     */
     bool contains(const std::string& name) const {
-        /* A IMPLEMENTER */
-        return indices.find(name) != indices.end();
+        return symbole.find(name) != symbole.end();
     }
 
-    //index du sommet correspondant au symbole
+    /**
+     * Trouve l'index du sommet correspondant au symbole 
+     * @param name string étant le symbole recherché
+     * @return un entier étant l'index du symbole
+     */
     int index(const std::string& name) const {
-        /* A IMPLEMENTER */
-        return indices.at(name);
+        return symbole.at(name);
     }
 
-    //symbole correspondant au sommet
+    /**
+     * Trouve le symbole correspondant à l'index d'un sommet
+     * @param idx entier étant l'index du sommet
+     * @return string étant le symbole cherché
+     */
     std::string symbol(int idx) const {
-        /* A IMPLEMENTER */
-        return symboles.at(idx);
+        return indexSymbole.at(idx);
     }
 
-    //indices adjacents a un symbole
+    /**
+     * Trouve les symboles adjacents à un symbole
+     * @param name string étant le symbole auquel il faut trouver les adjacents
+     * @return une liste de string contenant les symboles adjacents
+     */
     std::vector<std::string> adjacent(const std::string& name) const {
-        /* A IMPLEMENTER */
-        std::vector<std::string> adjacents;
-
-        for(int w : g->adjacent(index(name))) {
-            adjacents.push_back(symbol(w));
+        std::vector<std::string> adj;
+        for(int i : g->adjacent(index(name))){
+            adj.push_back(symbol(i));
         }
 
         return adjacents;

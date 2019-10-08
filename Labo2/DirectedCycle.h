@@ -42,7 +42,6 @@ public:
 	//constructeur
 	DirectedCycle(const GraphType& g) {
 		/* A IMPLEMENTER */
-
 		this->g = &g;
 
 		marked.resize(this->g->V(), 0);
@@ -60,8 +59,6 @@ public:
 //            std::fill(stacked.begin(), stacked.end(), false);
 		}
 	}
-
-
 	
 	//indique la presence d'un cycle
 	bool HasCycle() {
