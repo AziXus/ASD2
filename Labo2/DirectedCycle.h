@@ -91,7 +91,7 @@ public:
 	bool HasCycle() {
 		/* A IMPLEMENTER */
 		//return ...
-		return cycles.size() != 0;
+		return foundCycle;
 	}
 	
 	//liste les indexes des sommets formant une boucle

@@ -22,6 +22,12 @@ class TopologicalSort {
 private:
 	/* A DEFINIR */
 	std::vector<int> topologie;
+        std::vector<int> reverse(std::vector<int> v){
+            std::vector<int> reverse(v.size());
+            for(int i = 0; i < v.size(); i++)
+                reverse.push_back(v[i]);
+            return reverse;
+        }
 //	std::vector<int> dfsPostInverse;
 
 public:
@@ -42,7 +48,7 @@ public:
     const std::vector<int>& Order() {
         /* A IMPLEMENTER */
         //return ...
-        return topologie;
+        return reverse(topologie);
     }
     
     //exception si le graphe n'est pas un DAG (Directed Acyclic Graph)
