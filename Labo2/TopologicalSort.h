@@ -23,8 +23,8 @@ private:
 	/* A DEFINIR */
 	std::vector<int> topologie;
         std::vector<int> reverse(std::vector<int> v){
-            std::vector<int> reverse(v.size());
-            for(int i = 0; i < v.size(); i++)
+            std::vector<int> reverse;
+            for(int i = v.size() - 1; i >= 0; i--)
                 reverse.push_back(v[i]);
             return reverse;
         }
@@ -42,13 +42,15 @@ public:
         DFS<GraphType> dfs(g);
 
         dfs.visitGraph([] (int){}, [this](int v) { this->topologie.push_back(v); });
+        
+        topologie = reverse(topologie);
     }
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
     const std::vector<int>& Order() {
         /* A IMPLEMENTER */
         //return ...
-        return reverse(topologie);
+        return topologie;
     }
     
     //exception si le graphe n'est pas un DAG (Directed Acyclic Graph)
