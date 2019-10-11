@@ -51,16 +51,31 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
-    string file("prerequis.txt");
     string file("prerequis2.txt");
+    string file2("prerequis2.txt");
+    SymbolGraph<DiGraph> SG(file, ',');
     try{
-        SymbolGraph<DiGraph> SG(file, ',');
-    
-    for(int i = 0; i < SG.G().V(); i++){
-        cout << SG.symbol(i) << endl;
+        for(int i = 0; i < SG.G().V(); i++){
+            cout << SG.symbol(i) << endl;
+        }
+
+        cout << "---------" << endl;
+
+        TopologicalSort<DiGraph> t(SG.G());
+
+        for(int i = 0; i < SG.G().V(); i++){
+            cout << SG.symbol(t.Order()[i]) << endl;
+        }
+
+        cout << boolalpha << "Vérif : " << checkOrder(t.Order(), SG, file, ',');
+
+    }catch(std::exception){
+        DirectedCycle<DiGraph> t(SG.G());
+        cout << "caught" << endl;
+        
+        for(int i = 0; i < t.Cycle().size(); i++){
+            cout << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
+;        }
     }
-    }catch()
-    
-    
     return EXIT_SUCCESS;
 }
