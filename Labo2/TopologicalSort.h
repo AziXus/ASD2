@@ -16,6 +16,7 @@
 #include <list>
 #include <vector>
 #include <exception>
+#include <algorithm>
 
 template < typename GraphType >
 class TopologicalSort {
@@ -43,7 +44,8 @@ public:
 
         dfs.visitGraph([] (int){}, [this](int v) { this->topologie.push_back(v); });
         
-        topologie = reverse(topologie);
+	std::reverse(topologie.begin(), topologie.end());
+        //topologie = reverse(topologie);
     }
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
