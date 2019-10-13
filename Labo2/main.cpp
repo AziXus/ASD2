@@ -53,7 +53,7 @@ bool checkOrder(const std::vector<int>& order,
 int main(int argc, const char * argv[]) {
     string file("prerequis.txt");
     string file2("prerequis2.txt");
-    SymbolGraph<DiGraph> SG(file2, ',');
+    SymbolGraph<DiGraph> SG(file, ',');
     try{
         for(int i = 0; i < SG.G().V(); i++){
             cout << SG.symbol(i) << endl;
@@ -74,7 +74,7 @@ int main(int argc, const char * argv[]) {
         cout << "caught" << endl;
         
         for(int i = 0; i < t.Cycle().size(); i++){
-            cout << *next(t.Cycle().begin(), i) << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
+            cout << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
 ;        }
     }
     return EXIT_SUCCESS;

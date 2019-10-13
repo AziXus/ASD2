@@ -47,8 +47,10 @@ private:
                 }
 	    }
             
-            if(v == debutCycle)
+            if(v == debutCycle){
                 foundSommet=true;
+                 cycles.push_back(v);
+            }
             
             if(foundCycle && !foundSommet){
                 cycles.push_back(v);
