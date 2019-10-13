@@ -22,7 +22,8 @@ private:
     std::list<int> cycles;
 
     bool foundCycle = false;
-    int sommet = 0;
+    bool foundSommet = false;
+    int debutCycle;
     std::vector<bool> marked;
     std::vector<bool> stacked;
     
@@ -41,11 +42,16 @@ private:
 	            detectCycle(w);
 	        else if(stacked[w]){
 	            foundCycle = true;
-                    sommet = v;
+                    cycles.push_back(w);
+                    debutCycle = w;
                 }
 	    }
-            if(foundCycle){
-              cycles.push_back(v);  
+            
+            if(v == debutCycle)
+                foundSommet=true;
+            
+            if(foundCycle && !foundSommet){
+                cycles.push_back(v);
             }
 	    stacked[v] = false;
 	}
@@ -70,6 +76,20 @@ public:
 //            std::fill(marked.begin(), marked.end(), false);
 //            std::fill(stacked.begin(), stacked.end(), false);
 		}
+//                bool foundEndCycle = false;
+//                int nbElementCycle = 0;
+//                for(int v : cycles){
+//                    for(auto w : sommets){
+//                        if(v == w){
+//                            foundEndCycle = true;
+//                        }
+//                    }
+//                    nbElementCycle++;
+//                }
+//                for(int i = nbElementCycle; i < cycles.size();){
+//                    cycles.erase(std::next(cycles.begin(), nbElementCycle + 1));
+//                }
+                //cycles.push_front(*(cycles.end()));
 //                bool estCycle = false;
 //                for(int v = 1; v < cycles.size(); ++v){
 //                    for(int w : this->g->adjacent(*std::next(cycles.begin(),v))){
