@@ -45,12 +45,11 @@ private:
                 rootCycle = w;
             }
         }
-        if(v == rootCycle){
-            foundRoot = true;
-            cycles.push_back(v);
-        }
         if(foundCycle && !foundRoot){
             cycles.push_back(v);
+        }
+        if(v == rootCycle){
+            foundRoot = true;
         }
         stacked[v] = false;
     }
