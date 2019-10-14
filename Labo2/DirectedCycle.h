@@ -28,35 +28,35 @@ private:
     std::vector<bool> stacked;
     
 
-	void detectCycle(int v) {
-	    //Si v est dans le graphe
+    void detectCycle(int v) {
+        //Si v est dans le graphe
 
-	    marked[v] = true;
-	    stacked[v] = true;
+        marked[v] = true;
+        stacked[v] = true;
 
-	    for (auto w : g->adjacent(v)) {
-	        if(foundCycle){
-	            return;
-                }
-	        else if(!marked[w])
-	            detectCycle(w);
-	        else if(stacked[w]){
-	            foundCycle = true;
-                    cycles.push_back(w);
-                    debutCycle = w;
-                }
-	    }
-            
-            if(v == debutCycle){
-                foundSommet=true;
-                 cycles.push_back(v);
+        for (auto w : g->adjacent(v)) {
+            if(foundCycle){
+                return;
             }
-            
-            if(foundCycle && !foundSommet){
-                cycles.push_back(v);
+            else if(!marked[w])
+                detectCycle(w);
+            else if(stacked[w]){
+                foundCycle = true;
+                cycles.push_back(w);
+                debutCycle = w;
             }
-	    stacked[v] = false;
-	}
+        }
+
+        if(v == debutCycle){
+            foundSommet=true;
+             cycles.push_back(v);
+        }
+
+        if(foundCycle && !foundSommet){
+            cycles.push_back(v);
+        }
+        stacked[v] = false;
+    }
 	
 public:
 	//constructeur
@@ -70,43 +70,8 @@ public:
 		for (int v = 0; v < this->g->V(); ++v) {
                     if(!marked[v])
                         detectCycle(v);
-                
-                    /*if (foundCycle)
-                        cycles.push_back(v);*/
-
 		    foundCycle = false;
-//            std::fill(marked.begin(), marked.end(), false);
-//            std::fill(stacked.begin(), stacked.end(), false);
 		}
-//                bool foundEndCycle = false;
-//                int nbElementCycle = 0;
-//                for(int v : cycles){
-//                    for(auto w : sommets){
-//                        if(v == w){
-//                            foundEndCycle = true;
-//                        }
-//                    }
-//                    nbElementCycle++;
-//                }
-//                for(int i = nbElementCycle; i < cycles.size();){
-//                    cycles.erase(std::next(cycles.begin(), nbElementCycle + 1));
-//                }
-                //cycles.push_front(*(cycles.end()));
-//                bool estCycle = false;
-//                for(int v = 1; v < cycles.size(); ++v){
-//                    for(int w : this->g->adjacent(*std::next(cycles.begin(),v))){
-//                        if(w == *std::next(cycles.begin(),v))
-//                            estCycle = true;
-//                    }
-//                    if(!estCycle){
-//                        cycles.erase(std::next(cycles.begin(),v));
-//                    }
-//                    estCycle = false;
-//                }
-//                for(int v = 0; v < cycles.size(); ++v){
-//                    if(!detectCycle(*std::next(cycles.begin(),v)))
-//                        cycles.erase(std::next(cycles.begin(),v));
-//                }
 	}
 	
 	//indique la presence d'un cycle
