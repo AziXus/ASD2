@@ -22,11 +22,10 @@ private:
     std::list<int> cycles;
 
     bool foundCycle = false;
-    bool foundSommet = false;
-    int debutCycle;
+    bool foundRoot = false;
+    int rootCycle;
     std::vector<bool> marked;
     std::vector<bool> stacked;
-    
 
     void detectCycle(int v) {
         //Si v est dans le graphe
@@ -43,51 +42,45 @@ private:
             else if(stacked[w]){
                 foundCycle = true;
                 cycles.push_back(w);
-                debutCycle = w;
+                rootCycle = w;
             }
         }
-
-        if(v == debutCycle){
-            foundSommet=true;
-             cycles.push_back(v);
+        if(v == rootCycle){
+            foundRoot = true;
+            cycles.push_back(v);
         }
-
-        if(foundCycle && !foundSommet){
+        if(foundCycle && !foundRoot){
             cycles.push_back(v);
         }
         stacked[v] = false;
     }
-	
+
 public:
-	//constructeur
-	DirectedCycle(const GraphType& g) {
-		/* A IMPLEMENTER */
-		this->g = &g;
+    //constructeur
+    DirectedCycle(const GraphType& g) {
+        /* A IMPLEMENTER */
+        this->g = &g;
 
-		marked.resize(this->g->V(), 0);
-		stacked.resize(this->g->V(), 0);
+        marked.resize(this->g->V(), 0);
+        stacked.resize(this->g->V(), 0);
 
-		for (int v = 0; v < this->g->V(); ++v) {
-                    if(!marked[v])
-                        detectCycle(v);
-		    foundCycle = false;
-		}
-	}
-	
-	//indique la presence d'un cycle
-	bool HasCycle() {
-		/* A IMPLEMENTER */
-		//return ...
-		return cycles.size() != 0;
-	}
-	
-	//liste les indexes des sommets formant une boucle
-	std::list<int> Cycle() {
-		/* A IMPLEMENTER */
-		//return ...
-		return cycles;
-	}
-	
+        for (int v = 0; v < this->g->V(); ++v) {
+            if(!marked[v]){
+                detectCycle(v);
+            }
+            foundCycle = false;
+        }
+    }
+
+    //indique la presence d'un cycle
+    bool HasCycle() {
+        return cycles.size() != 0;  //TODO return foundCycle -> pb
+    }
+
+    //liste les indexes des sommets formant une boucle
+    std::list<int> Cycle() {
+        return cycles;
+    }
 };
 
 #endif
