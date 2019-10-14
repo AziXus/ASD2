@@ -22,8 +22,8 @@ private:
     std::list<int> cycles;
 
     bool foundCycle = false;
-    bool cyclingToRoot = false;
-    int cycleRoot;
+    bool foundRoot = false;
+    int rootCycle;
     std::vector<bool> marked;
     std::vector<bool> stacked;
 
@@ -41,15 +41,16 @@ private:
                 detectCycle(w);
             else if(stacked[w]){
                 foundCycle = true;
-                cycleRoot = w;
-                cyclingToRoot = true;
+                rootCycle = w;
+                cycles.push_back(w);
             }
         }
-        if(foundCycle && cyclingToRoot){
+        if(v == rootCycle){
+            foundRoot = true;
             cycles.push_back(v);
-            if(cycleRoot == v){
-                cyclingToRoot = false;
-            }
+        }
+        if(foundCycle && !foundRoot){
+            cycles.push_back(v);
         }
         stacked[v] = false;
 
