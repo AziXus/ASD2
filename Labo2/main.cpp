@@ -54,32 +54,34 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
-    //Déclaration des deux fichiers contenant les valeurs des graphes à générer
-    string file("prerequis.txt");
-    string file2("prerequis2.txt");
-    //Création du graphe contenant les symboles
-    SymbolGraph<DiGraph> SG(file2, ',');
-    try{
-        //On effectue le tri topologique sur le graphe des sommets
-        //On inverse le graphe pour pouvoir avoir les dépendences des différents module correctes
-        TopologicalSort<DiGraph> t(SG.G().reverse());
-        cout << file << " est un DAG"  << endl;
-        cout << "Ordre topologique : " << endl;
-        //Affichage de l'ordre topologique
-        for(int i = 0; i < SG.G().V(); i++){
-            cout << SG.symbol(t.Order()[i]) << " ";
-        }
-        cout << endl;
-        cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
+     //Déclaration des deux fichiers contenant les valeurs des graphes à générer
+    vector<string> files = {"prerequis.txt", "prerequis2.txt"};
 
-    }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
-        //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
-        //et donc que le tri ne peut pas être appliqué
-        cout << file2 << " n'est un DAG"  << endl;
-        cout << "Cycle trouve" << endl;
-        //Affichage du cycle trouvé dans le graphe
-        for(int i : e.Cycle())
-            cout << SG.symbol(i) << " ";
+    for (auto file : files) {
+        //Création du graphe contenant les symboles
+        SymbolGraph<DiGraph> SG(file, ',');
+        try{
+            //On effectue le tri topologique sur le graphe des sommets
+            //On inverse le graphe pour pouvoir avoir les dépendences des différents module correctes
+            TopologicalSort<DiGraph> t(SG.G().reverse());
+            cout << file << " est un DAG"  << endl;
+            cout << "Ordre topologique : " << endl;
+            //Affichage de l'ordre topologique
+            for(int i = 0; i < SG.G().V(); i++){
+                cout << SG.symbol(t.Order()[i]) << " ";
+            }
+            cout << endl;
+            cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
+
+        }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
+            //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
+            //et donc que le tri ne peut pas être appliqué
+            cout << file << " n'est pas un DAG"  << endl;
+            cout << "Cycle trouve" << endl;
+            //Affichage du cycle trouvé dans le graphe
+            for(int i : e.Cycle())
+                cout << SG.symbol(i) << " ";
+        }
         cout << endl;
     }
     return EXIT_SUCCESS;

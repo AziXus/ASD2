@@ -24,40 +24,52 @@ private:
     //Contient le cycle dans l'ordre de parcours des sommets
     std::list<int> cycleOrdre;
 
-    bool foundCycle = false;
-    std::vector<bool> marked;
-    std::vector<bool> stacked;
-
+    bool cycleTrouve = false;
+    bool debutTrouve = false;
+    int sommetDebutCycle;
+    std::vector<bool> marque;
+    std::vector<bool> stocke;
+    
     void detectCycle(int v) {
         //Si v est dans le graphe
 
-        marked[v] = true;
-        stacked[v] = true;
+        marque[v] = true;
+        stocke[v] = true;
 
         for (auto w : g->adjacent(v)) {
             //Si on a trouvé un cycle on fait rien et on continue l'exécution de la fonction
-            if(foundCycle){
+            if(cycleTrouve){
             }
-            else if(!marked[w])
+            else if(!marque[w])
                 detectCycle(w);
-            else if(stacked[w]){
-                foundCycle = true;
+            //Si le sommet est déjà stocké cela siginfie qu'on a un cycle
+            else if(stocke[w]){
+                cycleTrouve = true;
                 //Ajout du sommets w car se sera le sommet de départ du cycle
                 cycleOrdre.push_back(w);
+                //Enregistrement du cycle w comme debut du cycle
+                sommetDebutCycle = w;
                 //Ajout des sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
                 //Les sommets seront rajoutés dans le vecteur contenant le cycle dans l'ordre décroissant de leur index(Le graphe est inversé)
-                for(int i = 0; i < stacked.size(); i++)
-                    if(stacked[i]){
-                        cycle.push_back(i);
-                    }
+//                for(int i = 0; i < stocke.size(); i++)
+//                    if(stocke[i]){
+//                        cycle.push_back(i);
+//                    }
             }
         }
+        //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que on retombe sur le sommet de début de cycle
+        if(cycleTrouve && !debutTrouve){
+            cycleOrdre.push_back(v);
+        }
+        //Si on trouve le sommet étant le début du cycle il ne faut plus ajouter de sommet
+        if(v == sommetDebutCycle)
+            debutTrouve = true;
         //Ajout dans cycleOrdre des sommets dans l'ordre de parcours du graphe
         //L'ordre du parcours des sommets est connu grâce à la récursion
-        for(int i = 0; i < cycle.size(); i++)
-            if(v == cycle[i])
-                cycleOrdre.push_back(v);
-        stacked[v] = false;
+//        for(int i = 0; i < cycle.size(); i++)
+//            if(v == cycle[i])
+//                cycleOrdre.push_back(v);
+        stocke[v] = false;
     }
 
 public:
@@ -65,11 +77,11 @@ public:
     DirectedCycle(const GraphType& g) {
         this->g = &g;
 
-        marked.resize(this->g->V(), 0);
-        stacked.resize(this->g->V(), 0);
+        marque.resize(this->g->V(), 0);
+        stocke.resize(this->g->V(), 0);
 
         for (int v = 0; v < this->g->V(); ++v) {
-            if(!marked[v]){
+            if(!marque[v]){
                 detectCycle(v);
             }
         }
@@ -79,7 +91,7 @@ public:
 
     //indique la presence d'un cycle
     bool HasCycle() {
-        return foundCycle;
+        return cycleTrouve;
     }
 
     //liste les indexes des sommets formant une boucle
