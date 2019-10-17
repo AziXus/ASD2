@@ -54,15 +54,15 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
-     //Déclaration des deux fichiers contenant les valeurs des graphes à générer
+    //Déclaration des deux fichiers contenant les valeurs des graphes à générer
     vector<string> files = {"prerequis.txt", "prerequis2.txt"};
 
     for (auto file : files) {
         //Création du graphe contenant les symboles
         SymbolGraph<DiGraph> SG(file, ',');
         try{
-            //On effectue le tri topologique sur le graphe des sommets
-            //On inverse le graphe pour pouvoir avoir les dépendences des différents module correctes
+            //Tri topologique sur le graphe des sommets
+            //Inversion du graphe SG pour avoir les bonnes dépendences entre les différents modules
             TopologicalSort<DiGraph> t(SG.G().reverse());
             cout << file << " est un DAG"  << endl;
             cout << "Ordre topologique : " << endl;
@@ -71,6 +71,7 @@ int main(int argc, const char * argv[]) {
                 cout << SG.symbol(t.Order()[i]) << " ";
             }
             cout << endl;
+            //Vérification de l'ordre du graphe
             cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
 
         }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
