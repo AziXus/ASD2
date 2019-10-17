@@ -37,7 +37,7 @@ private:
         stocke[v] = true;
 
         for (auto w : g->adjacent(v)) {
-            //Si on a trouvé un cycle on fait rien et on continue l'exécution de la fonction
+            //Si on a pas trouvé de cycle on continue la détection
             if(!cycleTrouve){
                 if(!marque[w])
                     detectCycle(w);
