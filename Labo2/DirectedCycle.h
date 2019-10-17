@@ -53,9 +53,8 @@ private:
         }
         //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que le sommet de début de cycle soit trouvé
         //Quand se sera le cas cela voudra dire que le cycle est terminé
-        if(cycleTrouve && !debutTrouve){
+        if(cycleTrouve && !debutTrouve)
             cycleOrdre.push_back(v);
-        }
         //Si le sommet étant le début du cycle est trouvé il ne faut plus ajouter de sommet la fin du cycle à été trouvée
         if(v == sommetDebutCycle)
             debutTrouve = true;
