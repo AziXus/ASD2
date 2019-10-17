@@ -23,13 +23,6 @@ class TopologicalSort {
 private:
 	/* A DEFINIR */
 	std::vector<int> topologie;
-        std::vector<int> reverse(std::vector<int> v){
-            std::vector<int> reverse;
-            for(int i = v.size() - 1; i >= 0; i--)
-                reverse.push_back(v[i]);
-            return reverse;
-        }
-//	std::vector<int> dfsPostInverse;
 
 public:
     //constructeur
@@ -45,7 +38,6 @@ public:
         dfs.visitGraph([] (int){}, [this](int v) { this->topologie.push_back(v); });
         
 	std::reverse(topologie.begin(), topologie.end());
-        //topologie = reverse(topologie);
     }
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe

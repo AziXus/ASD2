@@ -72,16 +72,18 @@ int main(int argc, const char * argv[]) {
         cout << endl;
         cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
 
-    }catch(std::exception){
+    }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
         //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
         //et donc que le tri ne peut pas être appliqué
-        DirectedCycle<DiGraph> t(SG.G());
+        DirectedCycle<DiGraph> t(SG.G().reverse());
         cout << file2 << " n'est un DAG"  << endl;
         cout << "Cycle trouve" << endl;
+        for(int i : t.Cycle())
+            cout << SG.symbol(i) << " ";
+        cout << endl;
         //Affichage du cycle trouvé dans le graphe
-        for(int i = 0; i < t.Cycle().size(); i++){
-            cout << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
-;        }
+        for(int i : e.Cycle())
+            cout << SG.symbol(i) << " ";
     }
     return EXIT_SUCCESS;
 }

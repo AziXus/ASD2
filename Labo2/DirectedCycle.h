@@ -12,6 +12,7 @@
 
 #include <list>
 #include <vector>
+#include <algorithm>
 
 
 template<typename GraphType>
@@ -19,7 +20,8 @@ class DirectedCycle {
 private:
     /* A DEFINIR */
     const GraphType* g;
-    std::list<int> cycles;
+    std::vector<int> cycles;
+    std::list<int> cycleOrdre;
 
     bool foundCycle = false;
     bool foundRoot = false;
@@ -34,23 +36,27 @@ private:
         stacked[v] = true;
 
         for (auto w : g->adjacent(v)) {
+            //Si on a trouvé un cycle on fait rien et on continue l'exécution de la fonction
             if(foundCycle){
-                return;
             }
             else if(!marked[w])
                 detectCycle(w);
             else if(stacked[w]){
                 foundCycle = true;
-                cycles.push_back(w);
-                rootCycle = w;
+                cycleOrdre.push_back(w);
+                //Ajoute les sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
+                //On ajoute les sommets du cycle dans l'ordre décroissant de symbole(Le graphe est inversé)
+                for(int i = 0; i < stacked.size(); i++)
+                    if(stacked[i]){
+                        cycles.push_back(i);
+                    }
             }
         }
-        if(foundCycle && !foundRoot){
-            cycles.push_back(v);
-        }
-        if(v == rootCycle){
-            foundRoot = true;
-        }
+        //En remontant on va ajouter dans cycleOrdre les sommets dans l'ordre de parcours
+        //On connaît l'ordre du parcours des sommets grâce à la fonction de récursion detectCycle
+        for(int i = 0; i < cycles.size(); i++)
+            if(v == cycles[i])
+                cycleOrdre.push_back(v);
         stacked[v] = false;
     }
 
@@ -67,18 +73,18 @@ public:
             if(!marked[v]){
                 detectCycle(v);
             }
-            foundCycle = false;
         }
+        cycleOrdre.reverse();
     }
 
     //indique la presence d'un cycle
     bool HasCycle() {
-        return cycles.size() != 0;  //TODO return foundCycle -> pb
+        return foundCycle;
     }
 
     //liste les indexes des sommets formant une boucle
     std::list<int> Cycle() {
-        return cycles;
+        return cycleOrdre;
     }
 };
 
