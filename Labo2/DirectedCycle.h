@@ -49,26 +49,16 @@ private:
                 cycleOrdre.push_back(w);
                 //Enregistrement du cycle w comme debut du cycle
                 sommetDebutCycle = w;
-                //Ajout des sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
-                //Les sommets seront rajoutés dans le vecteur contenant le cycle dans l'ordre décroissant de leur index(Le graphe est inversé)
-//                for(int i = 0; i < stocke.size(); i++)
-//                    if(stocke[i]){
-//                        cycle.push_back(i);
-//                    }
             }
         }
-        //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que on retombe sur le sommet de début de cycle
+        //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que le sommet de début de cycle soit trouvé
+        //Quand se sera le cas cela voudra dire que le cycle est terminé
         if(cycleTrouve && !debutTrouve){
             cycleOrdre.push_back(v);
         }
-        //Si on trouve le sommet étant le début du cycle il ne faut plus ajouter de sommet
+        //Si le sommet étant le début du cycle est trouvé il ne faut plus ajouter de sommet la fin du cycle à été trouvée
         if(v == sommetDebutCycle)
             debutTrouve = true;
-        //Ajout dans cycleOrdre des sommets dans l'ordre de parcours du graphe
-        //L'ordre du parcours des sommets est connu grâce à la récursion
-//        for(int i = 0; i < cycle.size(); i++)
-//            if(v == cycle[i])
-//                cycleOrdre.push_back(v);
         stocke[v] = false;
     }
 
