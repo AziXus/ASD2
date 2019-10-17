@@ -1,10 +1,11 @@
 /*
  * File:   DirectedCycle.h
  * Author: Olivier Cuisenaire
+ * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 2
  * Created on 08. octobre 2014, 10:46
  *
- * A implementer
- * Classe permettant la detection de cycle sur un graphe oriente
+ * Description: Classe permettant la detection de cycle sur un graphe oriente
  */
 
 #ifndef ASD2_DirectedCycle_h
@@ -18,74 +19,75 @@
 template<typename GraphType>
 class DirectedCycle {
 private:
-    const GraphType* g;
-    //Contient les sommets formant un cycle dans l'ordre décroissant de leur index
-    std::vector<int> cycle;
-    //Contient le cycle dans l'ordre de parcours des sommets
-    std::list<int> cycleOrdre;
+    const GraphType* g;                         //Graphe sur lequel on recherche un cycle
+    bool cycleTrouve = false;                   //Au moins un cycle trouvé
+    bool cycleCompletRacine = false;            //Remonté le cycle jusqu'à sa racine
+    int racineCycle;                            //Sommet duquel on commence et termine le cycle
 
-    bool cycleTrouve = false;
-    bool debutTrouve = false;
-    int sommetDebutCycle;
-    std::vector<bool> marque;
-    std::vector<bool> stocke;
-    
+    std::list<int> cycle;                       //Sommets du cycle
+    std::vector<bool> marque;                   //Sommet visité ou non
+    std::vector<bool> stocke;                   //Sommet dans la pile ou non
+
+    /*
+     * @brief   détecte la présence d'un cycle dans le graphe
+     * @param   v l'index d'un sommet du graphe
+     */
     void detectCycle(int v) {
-        //Si v est dans le graphe
-
-        marque[v] = true;
-        stocke[v] = true;
+        marque[v] = true;                       //On marque v comme visité
+        stocke[v] = true;                       //Empilage de v
 
         for (auto w : g->adjacent(v)) {
-            //Si on a pas trouvé de cycle on continue la détection
             if(!cycleTrouve){
                 if(!marque[w])
                     detectCycle(w);
-                //Si le sommet est déjà stocké cela siginfie qu'on a un cycle
-                else if(stocke[w]){
+                else if(stocke[w]){             //Si le sommet est déjà stocké cela siginfie qu'on a complété un cycle
                     cycleTrouve = true;
-                    //Ajout du sommets w car se sera le sommet de départ du cycle
-                    cycleOrdre.push_back(w);
-                    //Enregistrement du cycle w comme debut du cycle
-                    sommetDebutCycle = w;
+                    cycle.push_back(w);         //Ajout du sommet racine du cycle
+                    racineCycle = w;            //Enregistrement du sommet comme racine du cycle
                 }
             }
         }
-        //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que le sommet de début de cycle soit trouvé
-        //Quand se sera le cas cela voudra dire que le cycle est terminé
-        if(cycleTrouve && !debutTrouve)
-            cycleOrdre.push_back(v);
-        //Si le sommet étant le début du cycle est trouvé il ne faut plus ajouter de sommet la fin du cycle à été trouvée
-        if(v == sommetDebutCycle)
-            debutTrouve = true;
-        stocke[v] = false;
+
+        if(cycleTrouve && !cycleCompletRacine)  //Si un cycle a été trouvé on ajoute les sommets jusqu'à ce qu'on
+            cycle.push_back(v);                 //remonte le cycle complet (jusqu'à la racine)
+        if(v == racineCycle)                    //Si le sommet est le même qu'au début du cycle
+            cycleCompletRacine = true;          //On a effectué le cycle complet
+
+        stocke[v] = false;                      //Désempilage de v
     }
 
 public:
-    //constructeur
+    /*
+     * @brief   constructeur, effectue directement la détection de cyle
+     * @param   g le graphe sur lequel on recherche un cycle
+     */
     DirectedCycle(const GraphType& g) {
         this->g = &g;
-
         marque.resize(this->g->V(), 0);
         stocke.resize(this->g->V(), 0);
 
-        for (int v = 0; v < this->g->V(); ++v) {
-            if(!marque[v]){
+        for (int v = 0; v < this->g->V(); ++v) {//On boucle s''il reste des sommets non visités
+            if(!marque[v]){                     //(plusieurs composantes connexes)
                 detectCycle(v);
             }
         }
-        //On inverse l'ordre de cycle car le graphe était inversé
-        cycleOrdre.reverse();
+        cycle.reverse();                         //On inverse l'ordre de cycle car le graphe était inversé
     }
 
-    //indique la presence d'un cycle
+    /*
+     * @brief   indique la presence d'au moins un cycle
+     * @return  true si au moins un cycle a été trouvé, sinon false
+     */
     bool HasCycle() {
         return cycleTrouve;
     }
 
-    //liste les indexes des sommets formant une boucle
+    /*
+     * @brief   liste les indexes des sommets formant un cycle
+     * @return  les sommets formant un cycle sous forme d'une liste d'indexes
+     */
     std::list<int> Cycle() {
-        return cycleOrdre;
+        return cycle;
     }
 };
 
