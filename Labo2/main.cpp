@@ -1,8 +1,11 @@
 /*
- * File:   DFSOrder.h
+ * File:   main.cpp
  * Author: Cuisenaire
+ * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  * Labo 2
  * Created on 3. novembre 2014, 08:23
+ * Description: Programme effectuant un tri topologique sur un graphe et si celui-ci contient un cycle
+ * il arrête le tri et renvoie les sommets formant le cycle
  */
 
 
@@ -51,28 +54,31 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
+    //Déclaration des deux fichiers contenant les valeurs des graphes à générer
     string file("prerequis.txt");
     string file2("prerequis2.txt");
+    //Création du graphe contenant les symboles
     SymbolGraph<DiGraph> SG(file2, ',');
     try{
-        for(int i = 0; i < SG.G().V(); i++){
-            cout << SG.symbol(i) << endl;
-        }
-
-        cout << "---------" << endl;
-
+        //On effectue le tri topologique sur le graphe des sommets
+        //On inverse le graphe pour pouvoir avoir les dépendences des différents module correctes
         TopologicalSort<DiGraph> t(SG.G().reverse());
-        
+        cout << file << " est un DAG"  << endl;
+        cout << "Ordre topologique : " << endl;
+        //Affichage de l'ordre topologique
         for(int i = 0; i < SG.G().V(); i++){
             cout << SG.symbol(t.Order()[i]) << " ";
         }
-
-        cout << endl << boolalpha << "Vérif : " << checkOrder(t.Order(), SG, file, ',');
+        cout << endl;
+        cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
 
     }catch(std::exception){
+        //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
+        //et donc que le tri ne peut pas être appliqué
         DirectedCycle<DiGraph> t(SG.G());
-        cout << "caught" << endl;
-        
+        cout << file2 << " n'est un DAG"  << endl;
+        cout << "Cycle trouve" << endl;
+        //Affichage du cycle trouvé dans le graphe
         for(int i = 0; i < t.Cycle().size(); i++){
             cout << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
 ;        }
