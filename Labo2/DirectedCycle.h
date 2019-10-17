@@ -18,14 +18,13 @@
 template<typename GraphType>
 class DirectedCycle {
 private:
-    /* A DEFINIR */
     const GraphType* g;
-    std::vector<int> cycles;
+    //Contient les sommets formant un cycle dans l'ordre décroissant de leur index
+    std::vector<int> cycle;
+    //Contient le cycle dans l'ordre de parcours des sommets
     std::list<int> cycleOrdre;
 
     bool foundCycle = false;
-    bool foundRoot = false;
-    int rootCycle;
     std::vector<bool> marked;
     std::vector<bool> stacked;
 
@@ -43,19 +42,20 @@ private:
                 detectCycle(w);
             else if(stacked[w]){
                 foundCycle = true;
+                //Ajout du sommets w car se sera le sommet de départ du cycle
                 cycleOrdre.push_back(w);
-                //Ajoute les sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
-                //On ajoute les sommets contenu dans le cycle dans l'ordre décroissant de leur index(Le graphe est inversé)
+                //Ajout des sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
+                //Les sommets seront rajoutés dans le vecteur contenant le cycle dans l'ordre décroissant de leur index(Le graphe est inversé)
                 for(int i = 0; i < stacked.size(); i++)
                     if(stacked[i]){
-                        cycles.push_back(i);
+                        cycle.push_back(i);
                     }
             }
         }
-        //En remontant on va ajouter dans cycleOrdre les sommets dans l'ordre de parcours du cycle
-        //On connaît l'ordre du parcours des sommets grâce à la fonction de récursion detectCycle
-        for(int i = 0; i < cycles.size(); i++)
-            if(v == cycles[i])
+        //Ajout dans cycleOrdre des sommets dans l'ordre de parcours du graphe
+        //L'ordre du parcours des sommets est connu grâce à la récursion
+        for(int i = 0; i < cycle.size(); i++)
+            if(v == cycle[i])
                 cycleOrdre.push_back(v);
         stacked[v] = false;
     }
@@ -63,7 +63,6 @@ private:
 public:
     //constructeur
     DirectedCycle(const GraphType& g) {
-        /* A IMPLEMENTER */
         this->g = &g;
 
         marked.resize(this->g->V(), 0);
@@ -74,6 +73,7 @@ public:
                 detectCycle(v);
             }
         }
+        //On inverse l'ordre de cycle car le graphe était inversé
         cycleOrdre.reverse();
     }
 
