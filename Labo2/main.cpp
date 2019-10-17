@@ -78,12 +78,10 @@ int main(int argc, const char * argv[]) {
         DirectedCycle<DiGraph> t(SG.G().reverse());
         cout << file2 << " n'est un DAG"  << endl;
         cout << "Cycle trouve" << endl;
-        for(int i : t.Cycle())
-            cout << SG.symbol(i) << " ";
-        cout << endl;
         //Affichage du cycle trouvé dans le graphe
         for(int i : e.Cycle())
             cout << SG.symbol(i) << " ";
+        cout << endl;
     }
     return EXIT_SUCCESS;
 }

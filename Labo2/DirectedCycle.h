@@ -45,14 +45,14 @@ private:
                 foundCycle = true;
                 cycleOrdre.push_back(w);
                 //Ajoute les sommets formant le cycle car stacked contient les sommets visité jusqu'à la détection du cycle
-                //On ajoute les sommets du cycle dans l'ordre décroissant de symbole(Le graphe est inversé)
+                //On ajoute les sommets contenu dans le cycle dans l'ordre décroissant de leur index(Le graphe est inversé)
                 for(int i = 0; i < stacked.size(); i++)
                     if(stacked[i]){
                         cycles.push_back(i);
                     }
             }
         }
-        //En remontant on va ajouter dans cycleOrdre les sommets dans l'ordre de parcours
+        //En remontant on va ajouter dans cycleOrdre les sommets dans l'ordre de parcours du cycle
         //On connaît l'ordre du parcours des sommets grâce à la fonction de récursion detectCycle
         for(int i = 0; i < cycles.size(); i++)
             if(v == cycles[i])
