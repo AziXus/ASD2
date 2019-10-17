@@ -5,7 +5,7 @@
  * Created on 08. octobre 2014, 14:07
  *
  * A implementer
- * Classe permettant le tri topologique d'un graphe oriente
+ * Classe permettant le tri topologique d'un graphe oriente.
  */
 
 #ifndef ASD2_TopologicalSort_h
@@ -21,15 +21,7 @@
 template < typename GraphType >
 class TopologicalSort {
 private:
-	/* A DEFINIR */
 	std::vector<int> topologie;
-        std::vector<int> reverse(std::vector<int> v){
-            std::vector<int> reverse;
-            for(int i = v.size() - 1; i >= 0; i--)
-                reverse.push_back(v[i]);
-            return reverse;
-        }
-//	std::vector<int> dfsPostInverse;
 
 public:
     //constructeur
@@ -37,21 +29,22 @@ public:
         /* vous devez verifier la presence d'un cycle, auquel cas il faut lancer une  GraphNotDAGException*/
         DirectedCycle<GraphType> dc(g);
 
+        //En cas de cycle, on lève une exception avec le cycle en paramètre
         if (dc.HasCycle())
             throw GraphNotDAGException(dc.Cycle());
 
         DFS<GraphType> dfs(g);
 
+        //Effectue le parcours dfs de tout le graphe et ajoute les sommets au vecteur topologie
+        //en post-ordre
         dfs.visitGraph([] (int){}, [this](int v) { this->topologie.push_back(v); });
-        
-	std::reverse(topologie.begin(), topologie.end());
-        //topologie = reverse(topologie);
+
+        //Inverse le vecteur pour obtenir le bon ordre
+	    std::reverse(topologie.begin(), topologie.end());
     }
     
     //tableau contenant l'ordre de parcours des indexes des sommets dans le graphe
     const std::vector<int>& Order() {
-        /* A IMPLEMENTER */
-        //return ...
         return topologie;
     }
     
