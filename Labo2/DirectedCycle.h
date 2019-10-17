@@ -38,17 +38,17 @@ private:
 
         for (auto w : g->adjacent(v)) {
             //Si on a trouvé un cycle on fait rien et on continue l'exécution de la fonction
-            if(cycleTrouve){
-            }
-            else if(!marque[w])
-                detectCycle(w);
-            //Si le sommet est déjà stocké cela siginfie qu'on a un cycle
-            else if(stocke[w]){
-                cycleTrouve = true;
-                //Ajout du sommets w car se sera le sommet de départ du cycle
-                cycleOrdre.push_back(w);
-                //Enregistrement du cycle w comme debut du cycle
-                sommetDebutCycle = w;
+            if(!cycleTrouve){
+                if(!marque[w])
+                    detectCycle(w);
+                //Si le sommet est déjà stocké cela siginfie qu'on a un cycle
+                else if(stocke[w]){
+                    cycleTrouve = true;
+                    //Ajout du sommets w car se sera le sommet de départ du cycle
+                    cycleOrdre.push_back(w);
+                    //Enregistrement du cycle w comme debut du cycle
+                    sommetDebutCycle = w;
+                }
             }
         }
         //Si un cycle est trouvé on ajoute les sommets v jusqu'à ce que le sommet de début de cycle soit trouvé
