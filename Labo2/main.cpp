@@ -75,7 +75,6 @@ int main(int argc, const char * argv[]) {
     }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
         //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
         //et donc que le tri ne peut pas être appliqué
-        DirectedCycle<DiGraph> t(SG.G().reverse());
         cout << file2 << " n'est un DAG"  << endl;
         cout << "Cycle trouve" << endl;
         //Affichage du cycle trouvé dans le graphe
