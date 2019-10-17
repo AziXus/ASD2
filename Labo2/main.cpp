@@ -1,8 +1,11 @@
 /*
- * File:   DFSOrder.h
+ * File:   main.cpp
  * Author: Cuisenaire
+ * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  * Labo 2
  * Created on 3. novembre 2014, 08:23
+ * Description: Programme effectuant un tri topologique sur un graphe et si celui-ci contient un cycle
+ * il arrête le tri et renvoie les sommets formant le cycle
  */
 
 
@@ -51,31 +54,36 @@ bool checkOrder(const std::vector<int>& order,
 }
 
 int main(int argc, const char * argv[]) {
-    string file("prerequis.txt");
-    string file2("prerequis2.txt");
-    SymbolGraph<DiGraph> SG(file2, ',');
-    try{
-        for(int i = 0; i < SG.G().V(); i++){
-            cout << SG.symbol(i) << endl;
+    //Déclaration des deux fichiers contenant les valeurs des graphes à générer
+    vector<string> files = {"prerequis.txt", "prerequis2.txt"};
+
+    for (auto file : files) {
+        //Création du graphe contenant les symboles
+        SymbolGraph<DiGraph> SG(file, ',');
+        try{
+            //Tri topologique sur le graphe des sommets
+            //Inversion du graphe SG pour avoir les bonnes dépendences entre les différents modules
+            TopologicalSort<DiGraph> t(SG.G().reverse());
+            cout << file << " est un DAG"  << endl;
+            cout << "Ordre topologique : " << endl;
+            //Affichage de l'ordre topologique
+            for(int i = 0; i < SG.G().V(); i++){
+                cout << SG.symbol(t.Order()[i]) << " ";
+            }
+            cout << endl;
+            //Vérification de l'ordre du graphe
+            cout << (checkOrder(t.Order(), SG, file, ',') ? "Verification reussie" : "Verification erronee") << endl;
+
+        }catch(TopologicalSort<DiGraph>::GraphNotDAGException& e){
+            //Si une exception est attrapée cela veut dire que le graphe contient un cycle 
+            //et donc que le tri ne peut pas être appliqué
+            cout << file << " n'est pas un DAG"  << endl;
+            cout << "Cycle trouve" << endl;
+            //Affichage du cycle trouvé dans le graphe
+            for(int i : e.Cycle())
+                cout << SG.symbol(i) << " ";
         }
-
-        cout << "---------" << endl;
-
-        TopologicalSort<DiGraph> t(SG.G().reverse());
-        
-        for(int i = 0; i < SG.G().V(); i++){
-            cout << SG.symbol(t.Order()[i]) << " ";
-        }
-
-        cout << endl << boolalpha << "Vérif : " << checkOrder(t.Order(), SG, file, ',');
-
-    }catch(std::exception){
-        DirectedCycle<DiGraph> t(SG.G());
-        cout << "caught" << endl;
-        
-        for(int i = 0; i < t.Cycle().size(); i++){
-            cout << SG.symbol(*next(t.Cycle().begin(), i)) << " ";
-;        }
+        cout << endl;
     }
     return EXIT_SUCCESS;
 }
