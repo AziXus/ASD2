@@ -40,7 +40,7 @@ private:
             if(!cycleTrouve){
                 if(!marque[w])
                     detectCycle(w);
-                else if(stocke[w]){             //Si le sommet est déjà stocké cela siginfie qu'on a complété un cycle
+                else if(stocke[w]){             //Si le sommet est déjà stocké cela signifie qu'on commence un cycle
                     cycleTrouve = true;
                     cycle.push_back(w);         //Ajout du sommet racine du cycle
                     racineCycle = w;            //Enregistrement du sommet comme racine du cycle
@@ -58,7 +58,7 @@ private:
 
 public:
     /*
-     * @brief   constructeur, effectue directement la détection de cyle
+     * @brief   constructeur, effectue directement la détection de cycle
      * @param   g le graphe sur lequel on recherche un cycle
      */
     DirectedCycle(const GraphType& g) {
@@ -66,8 +66,8 @@ public:
         marque.resize(this->g->V(), 0);
         stocke.resize(this->g->V(), 0);
 
-        for (int v = 0; v < this->g->V(); ++v) {//On boucle s''il reste des sommets non visités
-            if(!marque[v]){                     //(plusieurs composantes connexes)
+        for (int v = 0; v < this->g->V(); ++v) { //On boucle s'il reste des sommets non visités
+            if(!marque[v]){                      //(plusieurs composantes connexes)
                 detectCycle(v);
             }
         }

@@ -1,11 +1,11 @@
 /*
  * File:   TopologicalSort.h
  * Author: Olivier Cuisenaire
- *
+ * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 2
  * Created on 08. octobre 2014, 14:07
  *
- * A implementer
- * Classe permettant le tri topologique d'un graphe oriente.
+ * Description: Classe permettant le tri topologique d'un graphe oriente.
  */
 
 #ifndef ASD2_TopologicalSort_h

@@ -1,6 +1,6 @@
 /*
  * File:   main.cpp
- * Author: Cuisenaire
+ * Author: Olivier Cuisenaire
  * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  * Labo 2
  * Created on 3. novembre 2014, 08:23
