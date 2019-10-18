@@ -45,7 +45,7 @@ public:
         std::ifstream s(filename);
         while (std::getline(s, line))
         {
-            auto names = split(line, delim);
+                auto names = split(line, delim);
             for( auto name : names ) 
                 if(!contains(name))
                     symbolTable[name] = cnt++;
