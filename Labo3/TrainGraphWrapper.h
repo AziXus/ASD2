@@ -17,7 +17,7 @@
 class TrainGraphWrapper {
 private:
     const TrainNetwork* tn;
-    EdgeWeightedGraph<int> edgeGraph;
+    const std::function<int(TrainNetwork::Line)> weigthFunc;
     
 public:  
     //Définition du type des arrête(Edge) ici elles seront de type WeightedEdge
@@ -26,24 +26,7 @@ public:
      * Contructeur de la classe TrainGraphWrapper
      * @param tn variable de type TrainNetwork étant le réseau ferroviaire pour lequel crée un graphe
      */
-    TrainGraphWrapper(const TrainNetwork& i) : tn(&i), edgeGraph(i.lines.size()) {
-        //Ajout des arêtes dans edgeGraph
-        for(unsigned i = 0; i < tn->lines.size(); i++){
-            //A améliorer de ouf
-            switch(tn->lines.at(i).nbTracks){
-                case 1 : edgeGraph.addEdge(tn->lines.at(i).cities.first, tn->lines.at(i).cities.second, tn->lines.at(i).length * 3);
-                break;
-                case 2 : edgeGraph.addEdge(tn->lines.at(i).cities.first, tn->lines.at(i).cities.second, tn->lines.at(i).length * 6);
-                break;
-                case 3 : edgeGraph.addEdge(tn->lines.at(i).cities.first, tn->lines.at(i).cities.second, tn->lines.at(i).length * 10);
-                break;
-                case 4 : edgeGraph.addEdge(tn->lines.at(i).cities.first, tn->lines.at(i).cities.second, tn->lines.at(i).length * 15);
-                break;
-                default: std::cout << "inconnu";
-                break;
-            }
-        }
-    }
+    TrainGraphWrapper(const TrainNetwork& i, std::function<int(TrainNetwork::Line)> weigthFunc) : tn(&i), weigthFunc(weigthFunc) {}
     /**
      * Renvoie la taille du graphe du réseau ferroviaire
      * @return un entier étant le nombre de sommet du graphe
@@ -57,7 +40,11 @@ public:
      */
     template <typename Func>
     void forEachEdge(Func f) const{
-        edgeGraph.forEachEdge(f);
+        for(TrainNetwork::Line l : tn->lines){
+            int weight = weigthFunc(l);
+            Edge edge(l.cities.first, l.cities.second, weight);
+            f(edge);
+        }
     }
     /**
      * Permet d'appliquer une fonction sur chaque arrête adjacente du graphe 
@@ -66,7 +53,12 @@ public:
      */
     template <typename Func>
     void forEachAdjacentEdge(int v, Func f) const{
-        edgeGraph.forEachAdjacentEdge(v, f);
+        int weight = 0;
+        for(TrainNetwork::Line l : tn->lines.at(v)){
+            weight = weigthFunc(l);
+            Edge edge(l.cities.first, l.cities.second, weight);
+            f(edge);
+        }
     }
 };
 
