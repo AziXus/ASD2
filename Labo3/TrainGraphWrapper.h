@@ -53,8 +53,9 @@ public:
      */
     template <typename Func>
     void forEachAdjacentEdge(int v, Func f) const{
-        int weight = 0;
-        for(TrainNetwork::Line l : tn->lines.at(v)){
+        int weight = 0;       
+        for(int i : tn->cities.at(v).lines){
+            TrainNetwork::Line l = tn->lines.at(i);
             weight = weigthFunc(l);
             Edge edge(l.cities.first, l.cities.second, weight);
             f(edge);
