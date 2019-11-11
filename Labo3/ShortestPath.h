@@ -70,7 +70,38 @@ public:
 	typedef typename BASE::Weight Weight;
 
 	DijkstraSP(const GraphType& g, int v)  {
-		/* A IMPLEMENTER */
+	    //Contient le tas avec les indexes qui referencent les poids (dans this.distanceTo)
+        std::set<std::pair<Weight, int>> q;
+
+        this->edgeTo.resize(g.V());
+        this->distanceTo.assign(g.V(),std::numeric_limits<Weight>::max());
+
+        this->edgeTo[v] = Edge(v,v,0);
+        this->distanceTo[v] = 0;
+
+        for (int w = 0; w < g.V(); ++w) {
+            q.insert(std::make_pair(this->distanceTo[w], w));
+        }
+
+        while (!q.empty()) {
+            int w = q.begin()->second;
+
+            q.erase(*q.begin());
+
+            g.forEachAdjacentEdge(w, [&](Edge e) {
+                Weight distThruE;
+                if (this->distanceTo[e.From()] > std::numeric_limits<Weight>::max() - e.Weight())
+                    distThruE = std::numeric_limits<Weight>::max();
+                else
+                    distThruE = this->distanceTo[e.From()] + e.Weight();
+
+                if (distThruE < this->distanceTo[e.To()]) {
+                    this->distanceTo[e.To()] = distThruE;
+                    this->edgeTo[e.To()] = e;
+                    q.insert(std::make_pair(this->distanceTo[e.To()], e.To()));
+                }
+            });
+        }
 	}
 };
 
