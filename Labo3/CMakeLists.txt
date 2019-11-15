@@ -19,5 +19,5 @@ add_executable(Labo3
         UnionFind.cpp
         UnionFind.h
         Util.cpp
-        Util.h TrainDiGraphWrapper.cpp TrainDiGraphWrapper.h
+        Util.h TrainDiGraphWrapper.h
         TrainGraphWrapper.cpp TrainGraphWrapper.h)

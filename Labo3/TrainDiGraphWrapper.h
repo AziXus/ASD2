@@ -30,7 +30,7 @@ private:
 public:
     typedef typename EdgeWeightedDiGraph<int>::Edge Edge;
 
-    TrainDiGraphWrapper(const TrainNetwork* tn, std::function<int(TrainNetwork::Line)> func) : tn(tn), weightFunc(func) {
+    TrainDiGraphWrapper(const TrainNetwork& tn, std::function<int(TrainNetwork::Line)> func) : tn(&tn), weightFunc(func) {
 
     }
 
