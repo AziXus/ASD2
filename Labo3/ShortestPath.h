@@ -52,7 +52,6 @@ public:
 	// Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
 	// sommet source à v.
 	Edges PathTo(int v) {
-		/* A IMPLEMENTER */
 	}
 
 protected:
