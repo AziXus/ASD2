@@ -14,7 +14,7 @@
 #include "EdgeWeightedGraphCommon.h"
 #include "EdgeWeightedGraph.h"
 
-class TrainGraphWrapper {
+class TrainGraphWrapper{
 private:
     const TrainNetwork* tn;
     const std::function<int(TrainNetwork::Line)> weigthFunc;
