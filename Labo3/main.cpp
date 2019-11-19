@@ -13,6 +13,7 @@
 #include "TrainNetwork.h"
 #include "MinimumSpanningTree.h"
 #include "ShortestPath.h"
+#include "TrainGraphWrapper.h"
 
 #include "EdgeWeightedGraph.h"
 #include "EdgeWeightedDiGraph.h"
@@ -22,8 +23,7 @@ using namespace std;
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
 // en passant par le reseau ferroviaire tn. Le critere a optimiser est la distance.
 void PlusCourtChemin(const string& depart, const string& arrivee, TrainNetwork& tn) {
-    
-    /* A IMPLEMENTER */
+   
 }
 
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
@@ -91,10 +91,10 @@ void testShortestPath(string filename)
 
 int main(int argc, const char * argv[]) {
     
-    testShortestPath("tinyEWD.txt");
-    testShortestPath("mediumEWD.txt");
-    testShortestPath("1000EWD.txt");
-    testShortestPath("10000EWD.txt");
+//    testShortestPath("tinyEWD.txt");
+//    testShortestPath("mediumEWD.txt");
+//    testShortestPath("1000EWD.txt");
+//    testShortestPath("10000EWD.txt");
     
     TrainNetwork tn("reseau.txt");
     
