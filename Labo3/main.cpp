@@ -13,7 +13,6 @@
 #include "TrainNetwork.h"
 #include "MinimumSpanningTree.h"
 #include "ShortestPath.h"
-#include "TrainGraphWrapper.h"
 
 #include "EdgeWeightedGraph.h"
 #include "EdgeWeightedDiGraph.h"
