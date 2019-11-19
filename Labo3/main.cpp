@@ -45,7 +45,7 @@ void afficheChemin(const string& path, int total, bool evalByDist){
 }
 
 
-void plusCourtCheminCommon(const string& depart, const string& arrivee, TrainNetwork& tn, const std::function<int(TrainNetwork::Line)> &f){
+int plusCourtCheminCommon(const string& depart, const string& arrivee, string& path, TrainNetwork& tn, const std::function<int(TrainNetwork::Line)> &f){
     TrainDiGraphWrapper tgw = TrainDiGraphWrapper(tn, f);
     int departIndex = getIndex(depart, tn); //TODO gérer pas trouvé
     int arriveeIndex = getIndex(arrivee, tn);
@@ -53,21 +53,21 @@ void plusCourtCheminCommon(const string& depart, const string& arrivee, TrainNet
     auto pathTo = shortestPath.PathTo(arriveeIndex);
     int total= 0;
 
-
-    string output = "via ";
     for(auto edge : pathTo){
-        output += getCityName(edge.From(), tn) + " -> ";
+        path += getCityName(edge.From(), tn) + " -> ";
         total += edge.Weight();
     }
-    cout << "longueur = " << total << " km" << endl;
-    cout << output << arrivee << endl;
+    return total;
 }
 
 
 // Calcule et affiche le plus court chemin de la ville depart a la ville arrivee
 // en passant par le reseau ferroviaire tn. Le critere a optimiser est la distance.
 void PlusCourtChemin(const string& depart, const string& arrivee, TrainNetwork& tn) {
-    plusCourtCheminCommon(depart, arrivee, tn, [](TrainNetwork::Line l){ return l.length; });
+    string path;
+    int total = plusCourtCheminCommon(depart, arrivee, path, tn, [](TrainNetwork::Line l){ return l.length; });
+    path += arrivee;
+    afficheChemin(path, total, true);
 }
 
 
@@ -78,39 +78,25 @@ void PlusCourtChemin(const string& depart, const string& arrivee, TrainNetwork& 
 // comme arrivee cette ville en travaux. Le critere a optimiser est la distance.
 void PlusCourtCheminAvecTravaux(const string& depart, const string& arrivee, const string& gareEnTravaux, TrainNetwork& tn) {
     int travauxIndex = getIndex(gareEnTravaux, tn);
-    plusCourtCheminCommon(depart, arrivee, tn, [travauxIndex](TrainNetwork::Line l){
+
+    string path;
+    int total = plusCourtCheminCommon(depart, arrivee, path, tn, [travauxIndex](TrainNetwork::Line l){
         if(l.cities.first == travauxIndex || l.cities.second == travauxIndex) return std::numeric_limits<int>::max();
         return l.length;
     });
+    path += arrivee;
+    afficheChemin(path, total, true);
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
 // en passant par le reseau ferroviaire tn. Le critere a optimiser est le temps de parcours
 void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, TrainNetwork& tn) {   //TODO factorize
-    TrainDiGraphWrapper tgw = TrainDiGraphWrapper(tn, [](TrainNetwork::Line l){ return l.duration; });
+    string path;
+    int total = plusCourtCheminCommon(depart, via, path, tn, [](TrainNetwork::Line l){ return l.duration; });
+    total += plusCourtCheminCommon(via, arrivee, path, tn, [](TrainNetwork::Line l){ return l.duration; });
+    path += arrivee;
 
-    int departIndex = getIndex(depart, tn); //TODO gérer pas trouvé
-    int arriveeIndex = getIndex(arrivee, tn);
-    int viaIndex = getIndex(via, tn);
-    int total= 0;
-
-    auto shortestPathToVia = DijkstraSP<TrainDiGraphWrapper>(tgw, departIndex);
-    auto pathToVia = shortestPathToVia.PathTo(viaIndex);
-
-    auto shortestPathToArrivee = DijkstraSP<TrainDiGraphWrapper>(tgw, viaIndex);
-    auto pathToArrivee = shortestPathToArrivee.PathTo(arriveeIndex);
-
-    string output = "via ";
-    for(auto edge : pathToVia){
-        output += getCityName(edge.From(), tn) + " -> ";
-        total += edge.Weight();
-    }
-    for(auto edge : pathToArrivee){
-        output += getCityName(edge.From(), tn) + " -> ";
-        total += edge.Weight();
-    }
-    cout << "temps = " << total << " minutes" << endl;
-    cout << output << arrivee << endl;
+    afficheChemin(path, total, false);
 }
 
 
