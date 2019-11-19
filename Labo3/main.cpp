@@ -3,7 +3,7 @@
 //  Labo3
 //
 //  Created by Olivier Cuisenaire on 18.11.14.
-//
+//  Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
 //
 
 #include <cstdlib>
@@ -21,34 +21,56 @@
 #include "TrainDiGraphWrapper.h"
 
 using namespace std;
-//TODO retourne -1 si pas trouvé
+
+
+/*
+ * @brief   fournit le nom de la ville depuis son index dans le réseau ferroviaire
+ * @param   index l'index de la ville cherchée, tn le réseau ferroviaire considéré
+ * @return  le nom de la ville
+ */
+string getCityName(size_t index, const TrainNetwork& tn){
+    return tn.cities[index].name;
+}
+
+/*
+ * @brief   fournit l'index de la ville dans un réseau ferroviaire
+ * @param   cityName le nom de la ville cherchée, tn le réseau ferroviaire considéré
+ * @return  l'index de la ville dans le graphe, -1 si non trouvé
+ */
 int getIndex(const string& cityName, const TrainNetwork& tn){
     for(size_t i = 0; i < tn.cities.size(); ++i){
-        if(cityName == tn.cities.at(i).name){
+        if(cityName == getCityName(i, tn)){
             return i;
         }
     }
     return -1;
 }
 
-string getCityName(size_t index, const TrainNetwork& tn){
-    return tn.cities[index].name;
-}
-
-void afficheChemin(const string& path, int total, bool evalByDist){
+/*
+ * @brief   affiche un chemin de ville en ville
+ * @param   path le chemin, arrivee la ville d'arrivee, total la distance temporelle ou spatiale du chemin,
+ *          evalByDist true si la distance est spatiale, false si temporelle
+ */
+void afficheChemin(const string& path, const string& arrivee, int total, bool evalByDist){
     if(evalByDist){
         cout << "longueur = " << total << " km" << endl;
     }else{
         cout << "temps = " << total << " minutes" << endl;
     }
-    cout << "via " << path << endl;
+    cout << "via " << path << arrivee << endl;
 }
 
-
+/*
+ * @brief   calcule le plus court/rapide chemin entre deux villes
+ * @param   depart, arrivee les villes de départ et d'arrivée, path la chaîne de caractères récupérant le chemin,
+ *          tn le réseau ferroviaire considéré, f la fonction de pondération du wrapper
+ * @return  le coût du trajet (distance spatiale/temporelle)
+ */
 int plusCourtCheminCommon(const string& depart, const string& arrivee, string& path, TrainNetwork& tn, const std::function<int(TrainNetwork::Line)> &f){
     TrainDiGraphWrapper tgw = TrainDiGraphWrapper(tn, f);
     int departIndex = getIndex(depart, tn); //TODO gérer pas trouvé
     int arriveeIndex = getIndex(arrivee, tn);
+
     auto shortestPath = DijkstraSP<TrainDiGraphWrapper>(tgw, departIndex);
     auto pathTo = shortestPath.PathTo(arriveeIndex);
     int total= 0;
@@ -65,9 +87,10 @@ int plusCourtCheminCommon(const string& depart, const string& arrivee, string& p
 // en passant par le reseau ferroviaire tn. Le critere a optimiser est la distance.
 void PlusCourtChemin(const string& depart, const string& arrivee, TrainNetwork& tn) {
     string path;
+
     int total = plusCourtCheminCommon(depart, arrivee, path, tn, [](TrainNetwork::Line l){ return l.length; });
-    path += arrivee;
-    afficheChemin(path, total, true);
+
+    afficheChemin(path, arrivee, total, true);
 }
 
 
@@ -77,26 +100,26 @@ void PlusCourtChemin(const string& depart, const string& arrivee, TrainNetwork& 
 // inaccessible. Vous pouvez mettre un cout infini aux arcs ayant comme depart ou
 // comme arrivee cette ville en travaux. Le critere a optimiser est la distance.
 void PlusCourtCheminAvecTravaux(const string& depart, const string& arrivee, const string& gareEnTravaux, TrainNetwork& tn) {
+    string path;
     int travauxIndex = getIndex(gareEnTravaux, tn);
 
-    string path;
     int total = plusCourtCheminCommon(depart, arrivee, path, tn, [travauxIndex](TrainNetwork::Line l){
         if(l.cities.first == travauxIndex || l.cities.second == travauxIndex) return std::numeric_limits<int>::max();
         return l.length;
     });
-    path += arrivee;
-    afficheChemin(path, total, true);
+
+    afficheChemin(path, arrivee, total, true);
 }
 
 // Calcule et affiche le plus rapide chemin de la ville depart a la ville arrivee via la ville "via"
 // en passant par le reseau ferroviaire tn. Le critere a optimiser est le temps de parcours
-void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, TrainNetwork& tn) {   //TODO factorize
+void PlusRapideChemin(const string& depart, const string& arrivee, const string& via, TrainNetwork& tn) {
     string path;
+
     int total = plusCourtCheminCommon(depart, via, path, tn, [](TrainNetwork::Line l){ return l.duration; });
     total += plusCourtCheminCommon(via, arrivee, path, tn, [](TrainNetwork::Line l){ return l.duration; });
-    path += arrivee;
 
-    afficheChemin(path, total, false);
+    afficheChemin(path, arrivee, total, false);
 }
 
 
