@@ -52,6 +52,14 @@ public:
 	// Renvoie la liste ordonnee des arcs constituant un chemin le plus court du
 	// sommet source à v.
 	Edges PathTo(int v) {
+		Edges edgeList;
+		Edge current = EdgeTo(v);
+		while(DistanceTo(current.To())){        //Tant qu'on n'a pas atteint le sommet source
+		    edgeList.push_back(current);
+		    current = EdgeTo(current.From());   //On remonte le chemin
+		}
+        std::reverse(edgeList.begin(),edgeList.end());
+		return edgeList;
 	}
 
 protected:
