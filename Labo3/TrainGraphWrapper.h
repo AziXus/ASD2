@@ -17,7 +17,7 @@
 class TrainGraphWrapper{
 private:
     const TrainNetwork* tn;
-    const std::function<int(TrainNetwork::Line)> weigthFunc;
+    const std::function<int(TrainNetwork::Line)> weightFunc;
     
 public:  
     //Définition du type des arrête(Edge) ici elles seront de type WeightedEdge
@@ -26,7 +26,7 @@ public:
      * Contructeur de la classe TrainGraphWrapper
      * @param tn variable de type TrainNetwork étant le réseau ferroviaire pour lequel crée un graphe
      */
-    TrainGraphWrapper(const TrainNetwork& i, std::function<int(TrainNetwork::Line)> weigthFunc) : tn(&i), weigthFunc(weigthFunc) {}
+    TrainGraphWrapper(const TrainNetwork& i, std::function<int(TrainNetwork::Line)> weigthFunc) : tn(&i), weightFunc(std::move(weigthFunc)) {}
     /**
      * Renvoie la taille du graphe du réseau ferroviaire
      * @return un entier étant le nombre de sommet du graphe
@@ -41,7 +41,7 @@ public:
     template <typename Func>
     void forEachEdge(Func f) const{
         for(TrainNetwork::Line l : tn->lines){
-            int weight = weigthFunc(l);
+            int weight = weightFunc(l);
             Edge edge(l.cities.first, l.cities.second, weight);
             f(edge);
         }
@@ -56,7 +56,7 @@ public:
         int weight = 0;       
         for(int i : tn->cities.at(v).lines){
             TrainNetwork::Line l = tn->lines.at(i);
-            weight = weigthFunc(l);
+            weight = weightFunc(l);
             Edge edge(l.cities.first, l.cities.second, weight);
             f(edge);
         }
