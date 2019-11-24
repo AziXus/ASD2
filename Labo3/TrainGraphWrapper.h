@@ -23,7 +23,7 @@ public:
     //Définition du type des arrête(Edge) ici elles seront de type WeightedEdge
     typedef WeightedEdge<int> Edge;
     /**
-     * Contructeur de la classe TrainGraphWrapper
+     * Constructeur de la classe TrainGraphWrapper
      * @param tn variable de type TrainNetwork étant le réseau ferroviaire pour lequel crée un graphe
      */
     TrainGraphWrapper(const TrainNetwork& i, std::function<int(TrainNetwork::Line)> weigthFunc) : tn(&i), weightFunc(std::move(weigthFunc)) {}
@@ -32,11 +32,11 @@ public:
      * @return un entier étant le nombre de sommet du graphe
      */
     int V() const{ 
-        return tn->cities.size(); 
+        return (int)tn->cities.size();
     }
     /**
      * Permet d'appliquer une fonction sur chaque arrête du graphe
-     * @param f la function a appliquée à toutes les arrêtes 
+     * @param f la fonction a appliquée à toutes les arrêtes
      */
     template <typename Func>
     void forEachEdge(Func f) const{

@@ -77,7 +77,7 @@ public:
 	typedef typename BASE::Weight Weight;
 
 	DijkstraSP(const GraphType& g, int v)  {
-	    //Contient le tas avec les indexes qui referencent les poids (dans this.distanceTo)
+	    //Contient le tas utilisé comme une priority_queue
         std::set<std::pair<Weight, int>> q;
 
         this->edgeTo.resize(g.V());
@@ -97,6 +97,8 @@ public:
 
             g.forEachAdjacentEdge(w, [&](Edge e) {
                 Weight distThruE;
+
+                //En cas d'overflow, définis la valeur au maximum
                 if (this->distanceTo[e.From()] > std::numeric_limits<Weight>::max() - e.Weight())
                     distThruE = std::numeric_limits<Weight>::max();
                 else
