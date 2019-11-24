@@ -1,10 +1,11 @@
-/* 
- * File:   DiGraph.h
- * Author: Cuisenaire
+/*
+ * File:   TrainGraphWrapper.h
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  *
- * Created on 7. octobre 2014, 16:54
- * 
- * Implementation d'un graphe oriente par liste d'adjacence
+ * Last modified on 24 november 2019
+ *
+ * Wrapper encapsulant un TrainNetwork permettant d'appeller les
+ * algorithmes de plus court chemin.
  */
 
 #ifndef TRAINGRAPHWRAPPER_H

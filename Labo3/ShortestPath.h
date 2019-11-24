@@ -3,6 +3,7 @@
  * Author: Olivier Cuisenaire
  *
  * Created on 5. novembre 2014, 10:16
+ * Modified: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
  */
 
 #ifndef ASD2_ShortestPath_h
