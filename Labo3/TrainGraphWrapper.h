@@ -28,7 +28,7 @@ public:
      * @param tn variable de type TrainNetwork étant le réseau ferroviaire pour lequel crée un graphe
      * @param weigthFunc fonction permettant de définir le poids des arêtes du graphe
      */
-    TrainGraphWrapper(const TrainNetwork& tn, std::function<int(TrainNetwork::Line)> weigthFunc) : tn(&tn), weigthFunc(std::move(weigthFunc)) {}
+    TrainGraphWrapper(const TrainNetwork& tn, std::function<int(TrainNetwork::Line)> weightFunc) : tn(&tn), weightFunc(std::move(weightFunc)) {}
     /**
      * Renvoie la taille du graphe du réseau ferroviaire
      * @return un entier étant le nombre de sommet du graphe
