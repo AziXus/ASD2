@@ -179,29 +179,26 @@ void testShortestPath(string filename)
 
 
 
-int main(int argc, const char * argv[]) {   //TODO supprimer exemples commentés
+int main(int argc, const char * argv[]) {
 
     testShortestPath("tinyEWD.txt");
     testShortestPath("mediumEWD.txt");
     testShortestPath("1000EWD.txt");
-    //testShortestPath("10000EWD.txt");
+    testShortestPath("10000EWD.txt");
     
     TrainNetwork tn("reseau.txt");
     
     cout << "1. Chemin le plus court entre Geneve et Coire" << endl;
     
-   // PlusCourtChemin("Geneve", "Coire", tn);
-    PlusCourtChemin("Lausanne", "Berne", tn);
+    PlusCourtChemin("Geneve", "Coire", tn);
     
     cout << "2. Chemin le plus court entre Geneve et Coire, avec la gare de Sion en travaux" << endl;
     
-   // PlusCourtCheminAvecTravaux("Geneve", "Coire", "Sion", tn);
-    PlusCourtCheminAvecTravaux("Lausanne", "Berne", "Romont", tn);
+    PlusCourtCheminAvecTravaux("Geneve", "Coire", "Sion", tn);
 
     cout << "3. Chemin le plus rapide entre Geneve et Coire en passant par Brigue" << endl;
     
-    //PlusRapideChemin("Geneve", "Coire", "Brigue", tn);
-    PlusRapideChemin("Lausanne", "Berne", "Viege", tn);
+    PlusRapideChemin("Geneve", "Coire", "Brigue", tn);
     
     cout << "4. Chemin le plus rapide entre Lausanne et Zurich en passant par Bale" << endl;
     
