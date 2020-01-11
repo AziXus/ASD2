@@ -13,6 +13,9 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
+#include <cctype>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -48,26 +51,52 @@ vector<std::string> splitInterne(const std::string &s, char delim[], size_t size
     return elems;
 }
 
+// trim from start
+inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
+}
+
 void lectureDonnees(string filename){
         std::string line;
-        char delim[] = {' ', '-'};
+        // '—'
+        char delims[] = {' ', '-', '[', ']'};
         size_t size = 3;
+        bool digit = false;
         std::ifstream s(filename);
         while (std::getline(s, line)) {
             std::vector<string> elements = split(line, ' ');
             for(string element : elements){
+                element = trim(element);
                 std::vector<string> elements2 = split(element, '-');
+//                std::vector<string> elements3 = split(element, '—');
+//                elements2.insert( elements2.end(), elements3.begin(), elements3.end() );
                 for(string element2 : elements2){
                     for(char &c : element2){
                         if(c != '\'' && !isalpha(c)){
                             if(isdigit(c)){
-                                continue;
+                                digit = true;
+                                break;
                             }
                             c = ' ';
                         }
                         c = tolower(c);
                     }
-                    set.insert(element2);
+                    element2 = trim(element2);
+                    if(!digit)
+                        set.insert(element2);
+                    digit = false;
                 }
             }
         }
@@ -90,7 +119,7 @@ void lectureDictio(string filename){
 int main(int argc, char** argv) {
     //lectureDictio("dictionary.txt");
     
-    lectureDonnees("input_simple.txt");
+    lectureDonnees("input_wikipedia.txt");
     
     for(string s : set){
         cout << s << endl;
