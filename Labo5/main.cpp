@@ -23,6 +23,7 @@
 #include <chrono>
 #include <list>
 #include <unordered_set>
+#include "Dictionary.h"
 
 using namespace std;
 

@@ -14,7 +14,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-bool stringToLower(string& element2){
+bool stringToLower(std::string& element2){
     for(char &c : element2){
         if(isdigit(c)){
             return false;
