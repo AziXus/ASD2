@@ -26,7 +26,7 @@
 
 using namespace std;
 
-std::unordered_set<string> set;
+std::list<string> donnees;
 
 vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
@@ -51,21 +51,28 @@ vector<std::string> splitInterne(const std::string &s, char delim[], size_t size
     return elems;
 }
 
-// trim from start
-inline std::string &ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
-    return s;
+// trim from start (in place)
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+        if(ch == '\'')
+            return false;
+        return !std::isspace(ch);
+    }));
 }
 
-// trim from end
-inline std::string &rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-    return s;
+// trim from end (in place)
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+        if(ch == '\'')
+            return false;
+        return !std::isspace(ch);
+    }).base(), s.end());
 }
 
-// trim from both ends
-inline std::string &trim(std::string &s) {
-    return ltrim(rtrim(s));
+// trim from both ends (in place)
+static inline void trim(std::string &s) {
+    ltrim(s);
+    rtrim(s);
 }
 
 void lectureDonnees(string filename){
@@ -73,30 +80,26 @@ void lectureDonnees(string filename){
         // '—'
         char delims[] = {' ', '-', '[', ']'};
         size_t size = 3;
-        bool digit = false;
+        bool hasNoDigit = false;
         std::ifstream s(filename);
         while (std::getline(s, line)) {
             std::vector<string> elements = split(line, ' ');
             for(string element : elements){
-                element = trim(element);
+                trim(element);
                 std::vector<string> elements2 = split(element, '-');
-//                std::vector<string> elements3 = split(element, '—');
-//                elements2.insert( elements2.end(), elements3.begin(), elements3.end() );
                 for(string element2 : elements2){
-                    for(char &c : element2){
-                        if(c != '\'' && !isalpha(c)){
-                            if(isdigit(c)){
-                                digit = true;
-                                break;
-                            }
-                            c = ' ';
-                        }
-                        c = tolower(c);
+                    hasNoDigit = stringToLower(element2);
+                    element2.erase(std::remove_if(element2.begin(), element2.end() 
+                    ,[] (char c) { 
+                        return c != '\'' && !isalpha(c);
+                    }), element2.end());
+                    trim(element2);
+                    if(element2 == "bb"){
+                        cout << "Coucou " << element << endl;
                     }
-                    element2 = trim(element2);
-                    if(!digit)
-                        set.insert(element2);
-                    digit = false;
+                    if(hasNoDigit)
+                        donnees.push_back(element2);
+                    hasNoDigit = true;
                 }
             }
         }
@@ -104,16 +107,7 @@ void lectureDonnees(string filename){
 }
 
 void lectureDictio(string filename){
-        std::string line;
         
-        std::ifstream s(filename);
-        while (std::getline(s, line)) {
-            for(char &c : line){
-                c = tolower(c);
-            }
-            set.insert(line);
-        }
-        s.close();
 }
 
 int main(int argc, char** argv) {
@@ -121,7 +115,7 @@ int main(int argc, char** argv) {
     
     lectureDonnees("input_wikipedia.txt");
     
-    for(string s : set){
+    for(string s : donnees){
         cout << s << endl;
     }
 
