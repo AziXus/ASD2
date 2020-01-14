@@ -13,16 +13,10 @@
 
 #ifndef UTIL_H
 #define UTIL_H
+#include <string>
 
-bool stringToLower(std::string& element2){
-    for(char &c : element2){
-        if(isdigit(c)){
-            return false;
-        }
-        c = tolower(c);
-    }
-    return true;
-}
+
+bool stringToLower(std::string& element2);
 
 #endif /* UTIL_H */
 

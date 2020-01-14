@@ -107,13 +107,8 @@ void lectureDonnees(string filename){
         s.close();
 }
 
-void lectureDictio(string filename){
-        
-}
-
-int main(int argc, char** argv) {
-    //lectureDictio("dictionary.txt");
-    
+int main(int argc, char** argv) {    
+    DicoStl dico = DicoStl("dictionary.txt");
     lectureDonnees("input_wikipedia.txt");
     
     for(string s : donnees){

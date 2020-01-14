@@ -21,9 +21,9 @@
 #include "Util.h"
 #include "TernarySearchTree.h"
 
-class Dictionary {
+class DicoStl{
 public:
-    Dictionary(std::string filename){
+    DicoStl(std::string filename){
         genererDico(filename);
     }
     
@@ -38,17 +38,6 @@ public:
         }
         s.close();
     }
-    
-    virtual void insert(std::string str);
-    
-    virtual bool contains(std::string str);
-};
-
-class DicoStl : public Dictionary {
-public:
-    DicoStl(std::string filename):Dictionary(filename){
-        
-    }
   
     void insert(std::string str){
         dico.insert(str);
@@ -62,10 +51,22 @@ private:
     std::unordered_set<std::string> dico;
 };
 
-class DicoTST : public Dictionary {
+class DicoTST{
 public:
-    DicoTST(std::string filename):Dictionary(filename){
-        
+    DicoTST(std::string filename){
+        genererDico(filename);
+    }
+    
+    void genererDico(std::string filename){
+        std::string line;
+        bool hasNoDigit = false;
+        std::ifstream s(filename);
+        while (std::getline(s, line)) {
+            hasNoDigit = stringToLower(line);
+            if(hasNoDigit)
+                insert(line);
+        }
+        s.close();
     }
   
     void insert(std::string str){

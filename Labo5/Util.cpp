@@ -4,3 +4,14 @@
  * and open the template in the editor.
  */
 
+#include "Util.h"
+
+bool stringToLower(std::string& element2){
+    for(char &c : element2){
+        if(isdigit(c)){
+            return false;
+        }
+        c = tolower(c);
+    }
+    return true;
+}
