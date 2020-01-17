@@ -107,13 +107,102 @@ void lectureDonnees(string filename){
         s.close();
 }
 
-int main(int argc, char** argv) {    
-    DicoStl dico = DicoStl("dictionary.txt");
-    lectureDonnees("input_wikipedia.txt");
-    
-    for(string s : donnees){
-        cout << s << endl;
+void methode1(const string& str, list<string>& perm) {
+    for (size_t i = 0; i < str.length(); ++i) {
+        string s = str;
+        s.erase(std::remove(s.begin() + i, s.begin() + i + 1, s[i]));
+        perm.push_back(s);
     }
+}
+
+void methode2(const string& str, list<string>& perm) {
+    for (size_t i = 0; i <= str.length(); ++i) {
+        for (char j = 'a'; j <= 'z'; ++j) {
+            string s = str;
+            s.insert(s.begin() + i, j);
+            perm.push_back(s);
+        }
+    }
+}
+
+void methode3(const string& str, list<string>& perm) {
+    for (size_t i = 0; i < str.length(); ++i) {
+        for (char j = 'a'; j <= 'z'; ++j) {
+            string s = str;
+            s[i] = j;
+            perm.push_back(s);
+        }
+    }
+}
+
+void methode4(const string& str, list<string>& perm) {
+    for (size_t i = 0; i < str.length(); i += 2) {
+        string s = str;
+        swap(s[i], s[i + 1]);
+        perm.push_back(s);
+    }
+}
+
+#define DICTIONARY "dictionary.txt"
+#define INPUT_FILE "input_lates.txt"
+#define USE_TST
+
+int main() {
+    lectureDonnees(INPUT_FILE);
+
+#ifdef USE_TST
+    DicoTST dico(DICTIONARY);
+#else
+    DicoStl dico(DICTIONARY);
+#endif
+
+    list<string> perm;
+
+    for (const string& d : donnees) {
+        if (dico.contains(d))
+            continue;
+
+        cout << "*" << d << endl;
+        methode1(d, perm);
+        for (const string& p : perm) {
+            if (dico.contains(p)) {
+                cout << "1:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode2(d, perm);
+        for (const string& p : perm) {
+            if (dico.contains(p)) {
+                cout << "2:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode3(d, perm);
+        for (const string& p : perm) {
+            if (dico.contains(p)) {
+                cout << "3:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode4(d, perm);
+        for (const string& p : perm) {
+            if (dico.contains(p)) {
+                cout << "4:" << p << endl;
+            }
+        }
+    }
+
+//    cout << "Height after insertion : " << tst.height() << endl;
+//    cout << "Elements after insertion : " << tst.nbElements << endl;
+//    cout << "Elements after insertion : " << set.size() << endl;
+//
+    cout << boolalpha
+            << "vaticanize's : "  << dico.contains("vaticanize's") << endl
+            << "sociodramatic : " << dico.contains("sociodramatic") << endl
+            << "governessed : "   << dico.contains("governessed") << endl
+            << "ciconians : "     << dico.contains("ciconians") << endl
+            << "birder : "        << dico.contains("birder") << endl
+            << "antifreeze : "    << dico.contains("antifreeze") << endl;
 
     return 0;
 }

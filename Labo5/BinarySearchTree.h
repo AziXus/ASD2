@@ -61,7 +61,7 @@ private:
         deleteSubTree( x->left );
         delete x;
     }
-    
+
     //
     // Nombre d'elements
     //
@@ -73,8 +73,7 @@ private:
     int size(Node* x) {
         return ( x == nullptr ) ? 0 : x->nodeSize;
     }
-    
-    
+
     //
     // Insertion d'une paire cle / valeur.
     //

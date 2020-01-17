@@ -21,12 +21,11 @@
 #include "Util.h"
 #include "TernarySearchTree.h"
 
-class DicoStl{
+class Dictionary {
 public:
-    DicoStl(std::string filename){
-        genererDico(filename);
+    Dictionary(){
     }
-    
+
     void genererDico(std::string filename){
         std::string line;
         bool hasNoDigit = false;
@@ -38,42 +37,41 @@ public:
         }
         s.close();
     }
-  
-    void insert(std::string str){
+
+    virtual void insert(const std::string& str)=0;
+
+    virtual bool contains(const std::string& str)=0;
+};
+
+class DicoStl : public Dictionary {
+public:
+    DicoStl(const std::string& filename) {
+        genererDico(filename);
+    }
+
+    void insert(const std::string& str) override {
         dico.insert(str);
     }
-    
-    bool contains(std::string str){
+
+    bool contains(const std::string& str) override {
         return dico.find(str) != dico.end();
     }
-    
+
 private:
     std::unordered_set<std::string> dico;
 };
 
-class DicoTST{
+class DicoTST : public Dictionary {
 public:
     DicoTST(std::string filename){
         genererDico(filename);
     }
-    
-    void genererDico(std::string filename){
-        std::string line;
-        bool hasNoDigit = false;
-        std::ifstream s(filename);
-        while (std::getline(s, line)) {
-            hasNoDigit = stringToLower(line);
-            if(hasNoDigit)
-                insert(line);
-        }
-        s.close();
-    }
-  
-    void insert(std::string str){
+
+    void insert(const std::string& str) override{
         dico.put(str);
     }
-    
-    bool contains(std::string str){
+
+    bool contains(const std::string& str) override{
         return dico.contains(str);
     }
     

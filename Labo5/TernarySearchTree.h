@@ -42,8 +42,7 @@ private:
     // Racine de l'arbre.
     //
     Node* root;
-public:
-    size_t nbElements = 0;
+
 private:
 
 //    // HELPER: Mise à jour de la taille d'un sous-arbre à partir des taille de ses enfants
@@ -129,6 +128,10 @@ private:
     // Insertion d'une paire cle / valeur.
     //
 public:
+    void insert(const std::string& key) {
+        put(key);
+    }
+
     void put(const std::string& key) {
         root = put(root, key, 0);
     }
@@ -144,8 +147,8 @@ private:
             x->right = put(x->right, key, d);
         else if (d < key.length() - 1)
             x->center = put(x->center, key, d + 1);
-        else {
-            x->end = true; nbElements++;}
+        else
+            x->end = true;
 
 
 //        updateNodeSize(x);
