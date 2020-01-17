@@ -80,7 +80,6 @@ public:
         std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
         bool b = dico.find(str) != dico.end();
         std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
-        std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(temps).count() << std::endl;
         this->searchTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
         return b;
     }
@@ -102,8 +101,7 @@ public:
     bool contains(const std::string& str) override{
         std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
         bool b = dico.contains(str);
-        std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;       
-        std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(temps).count();
+        std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
         this->searchTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
         return b;
     }

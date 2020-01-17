@@ -144,7 +144,7 @@ void methode4(const string& str, list<string>& perm) {
 }
 
 #define DICTIONARY "dictionary.txt"
-#define INPUT_FILE "input_lates.txt"
+#define INPUT_FILE "input_wikipedia.txt"
 #define USE_TST
 
 int main() {
