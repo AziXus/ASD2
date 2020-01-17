@@ -149,61 +149,90 @@ void methode4(const string& str, list<string>& perm) {
 
 int main() {
     lectureDonnees(INPUT_FILE);
-
-#ifdef USE_TST
-    DicoTST dico(DICTIONARY);
-#else
-    DicoStl dico(DICTIONARY);
-#endif
-
+    ofstream myfile;
+    myfile.open ("correct.txt");
+    
+    DicoTST dicoTST(DICTIONARY);
+    
     list<string> perm;
 
     for (const string& d : donnees) {
-        if (dico.contains(d))
+        if (dicoTST.contains(d))
             continue;
 
-        cout << "*" << d << endl;
+        myfile << "*" << d << endl;
         methode1(d, perm);
         for (const string& p : perm) {
-            if (dico.contains(p)) {
-                cout << "1:" << p << endl;
+            if (dicoTST.contains(p)) {
+                myfile << "1:" << p << endl;
             }
         }
         perm.clear();
         methode2(d, perm);
         for (const string& p : perm) {
-            if (dico.contains(p)) {
-                cout << "2:" << p << endl;
+            if (dicoTST.contains(p)) {
+                myfile << "2:" << p << endl;
             }
         }
         perm.clear();
         methode3(d, perm);
         for (const string& p : perm) {
-            if (dico.contains(p)) {
-                cout << "3:" << p << endl;
+            if (dicoTST.contains(p)) {
+                myfile << "3:" << p << endl;
             }
         }
         perm.clear();
         methode4(d, perm);
         for (const string& p : perm) {
-            if (dico.contains(p)) {
-                cout << "4:" << p << endl;
+            if (dicoTST.contains(p)) {
+                myfile << "4:" << p << endl;
             }
         }
     }
+    
+    std::cout << "Temps de creation du dico avec TST:  " << dicoTST.getCreation() << " microseconds" << std::endl;   
+    std::cout << "Temps de search du dico avec TST:  " << dicoTST.getSearch() << " microseconds" << std::endl;
+    DicoStl dicoSTL(DICTIONARY);
+    
+    perm.clear();
 
-//    cout << "Height after insertion : " << tst.height() << endl;
-//    cout << "Elements after insertion : " << tst.nbElements << endl;
-//    cout << "Elements after insertion : " << set.size() << endl;
-//
-    cout << boolalpha
-            << "vaticanize's : "  << dico.contains("vaticanize's") << endl
-            << "sociodramatic : " << dico.contains("sociodramatic") << endl
-            << "governessed : "   << dico.contains("governessed") << endl
-            << "ciconians : "     << dico.contains("ciconians") << endl
-            << "birder : "        << dico.contains("birder") << endl
-            << "antifreeze : "    << dico.contains("antifreeze") << endl;
+    for (const string& d : donnees) {
+        if (dicoSTL.contains(d))
+            continue;
 
+        myfile << "*" << d << endl;
+        methode1(d, perm);
+        for (const string& p : perm) {
+            if (dicoSTL.contains(p)) {
+                myfile << "1:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode2(d, perm);
+        for (const string& p : perm) {
+            if (dicoSTL.contains(p)) {
+                myfile << "2:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode3(d, perm);
+        for (const string& p : perm) {
+            if (dicoSTL.contains(p)) {
+                myfile << "3:" << p << endl;
+            }
+        }
+        perm.clear();
+        methode4(d, perm);
+        for (const string& p : perm) {
+            if (dicoSTL.contains(p)) {
+                myfile << "4:" << p << endl;
+            }
+        }
+    }
+    
+    std::cout << "Temps de creation du dico avec STL:  " << dicoSTL.getCreation() << " microseconds" << std::endl;
+    std::cout << "Temps de search du dico avec STL:  " << dicoSTL.getSearch() << " microseconds" << std::endl;
+    
     return 0;
 }
 
