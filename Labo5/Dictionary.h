@@ -66,25 +66,51 @@ public:
         long long searchTime = 0;
 };
 
+/**
+ * Classe DicoSTL héritant de la classe Dictionary
+ * Nous utilisons cette classe pour implémenter la solution de stockage de dictionnaire avec
+ * des structures de la STL.
+ * Nous avons décidés d'utiliser une unordered_set pour stocker les différents mots
+ * car cette structure utilise des fonctions de hachage pour socker les différents mots.
+ * Comme vu en cours une table de hachage permet d'accèder à des éléments de manière linéaire dans le pire des cas
+ * et en moyenne 3-5* et c'est pour cela que nous avons choisi cette strcuture.
+ */
 class DicoSTL : public Dictionary {
 public:
+    /**
+     * Constructeur de la classe DicoSTL permet de générer le dictionnaire
+     * @param filename string représentant le nom du fichier contenant le dictionnaire 
+     */
     DicoSTL(const std::string& filename) {
         genererDico(filename);
     }
 
+    /**
+     * Fonction permettant d'insérer un mot dans le dictionnaire
+     * @param str string étant le mot à insérer
+     */
     void insert(const std::string& str) override {
         dico.insert(str);
     }
 
+    /**
+     * Function permettant de vérifier si un mot est contenu dans le dictionnaire 
+     * @param str string étant le mot recherché
+     * @return vrai si le mot est trouvé, faux sinon
+     */
     bool contains(const std::string& str) override {
+        //Lancer un temp de départ pour vérifier le temps d'une recherche
         std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
         bool b = dico.find(str) != dico.end();
+        //Calcul du temps de recherche
         std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
+        //Stockage du temps dans une variable allant contenir le temps totals de toutes les recherches effectuées
         this->searchTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
         return b;
     }
 
 private:
+    //Stucture unordered_set représentant le dictionnaire
     std::unordered_set<std::string> dico;
 };
 
