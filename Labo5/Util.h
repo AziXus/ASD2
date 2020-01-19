@@ -70,6 +70,7 @@ void methode2(const std::string& str, std::list<std::string>& perm);
 void methode3(const std::string& str, std::list<std::string>& perm);
 /*
  *
+ * test
  */
 void methode4(const std::string& str, std::list<std::string>& perm);
 
