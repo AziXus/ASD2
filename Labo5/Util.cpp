@@ -57,9 +57,12 @@ void lectureDonnees(const std::string filename, std::list<std::string>& donnees)
         std::vector<std::string> elements = split(line, ' ');
         for(std::string element : elements){
             trim(element);
+            //Split à nouveau la châine mais cette fois-ci seulement si des - sont présents
+            //Ainsi il est possible de vérifier l'orthographe de mot composé
             std::vector<std::string> elements2 = split(element, '-');
             for(std::string element2 : elements2){
                 hasNoDigit = stringToLower(element2);
+                //Va enlever tout les carcatère qui ne sont pas alphanumériques de la chaîne element2
                 element2.erase(std::remove_if(element2.begin(), element2.end()
                         ,[] (char c) {
                             return c != '\'' && !isalpha(c);
