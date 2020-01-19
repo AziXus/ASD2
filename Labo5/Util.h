@@ -68,7 +68,9 @@ void methode1(const std::string& str, std::list<std::string>& perm);
 void methode2(const std::string& str, std::list<std::string>& perm);
 
 void methode3(const std::string& str, std::list<std::string>& perm);
-
+/*
+ *
+ */
 void methode4(const std::string& str, std::list<std::string>& perm);
 
 
