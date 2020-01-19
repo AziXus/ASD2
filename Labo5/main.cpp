@@ -200,32 +200,32 @@ int main() {
         if (dicoSTL.contains(d))
             continue;
 
-        myfile << "*" << d << endl;
+        cout << "*" << d << endl;
         methode1(d, perm);
         for (const string& p : perm) {
             if (dicoSTL.contains(p)) {
-                myfile << "1:" << p << endl;
+                cout << "1:" << p << endl;
             }
         }
         perm.clear();
         methode2(d, perm);
         for (const string& p : perm) {
             if (dicoSTL.contains(p)) {
-                myfile << "2:" << p << endl;
+                cout << "2:" << p << endl;
             }
         }
         perm.clear();
         methode3(d, perm);
         for (const string& p : perm) {
             if (dicoSTL.contains(p)) {
-                myfile << "3:" << p << endl;
+                cout << "3:" << p << endl;
             }
         }
         perm.clear();
         methode4(d, perm);
         for (const string& p : perm) {
             if (dicoSTL.contains(p)) {
-                myfile << "4:" << p << endl;
+                cout << "4:" << p << endl;
             }
         }
     }
