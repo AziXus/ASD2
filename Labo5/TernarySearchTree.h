@@ -31,11 +31,9 @@ private:
         Node* right; // sous arbre avec des cles plus grandes
         Node* center;
         Node* left;  // sous arbre avec des cles plus petites
-//        int nodeSize; // taille du sous-arbre dont ce noeud est la racine.
         int nodeHeight; // hauteur du sous-arbre dont ce noeud est la racine.
         Node(char c, bool val) : c(c), end(val), right(nullptr), center(nullptr), left(nullptr),
                                  nodeHeight(0) {}
-//                                 nodeSize(1), nodeHeight(0) {}
     };
 
     //
@@ -45,11 +43,6 @@ private:
 
 private:
 
-//    // HELPER: Mise à jour de la taille d'un sous-arbre à partir des taille de ses enfants
-//    void updateNodeSize(Node* x) {
-//        x->nodeSize = size(x->right) + size(x->left) + 1;
-////        x->nodeSize = size(x->right) + size(x->center) + size(x->left) + 1;
-//    }
     // HELPER: Mise à jour de la hauteur d'un sous-arbre à partir des hauteurs de ses enfants
     void updateNodeHeight(Node* x) {
         x->nodeHeight = std::max(height(x->right),height(x->left)) + 1;
@@ -64,9 +57,6 @@ private:
         x->left = y->right;
         y->right = x;
 
-//        y->nodeSize = x->nodeSize;
-//        updateNodeSize(x);
-
         updateNodeHeight(x);
         updateNodeHeight(y);
         return y;
@@ -79,9 +69,6 @@ private:
         Node* y = x->right;
         x->right = y->left;
         y->left = x;
-
-//        y->nodeSize = x->nodeSize;
-//        updateNodeSize(x);
 
         updateNodeHeight(x);
         updateNodeHeight(y);
@@ -111,27 +98,10 @@ private:
         delete x;
     }
 
-//    //
-//    // Nombre d'elements
-//    //
-//public:
-//    int size() {
-//        return size(root);
-//    }
-//
-//private:
-//    int size(Node* x) {
-//        return ( x == nullptr ) ? 0 : x->nodeSize;
-//    }
-
     //
     // Insertion d'une paire cle / valeur.
     //
 public:
-    void insert(const std::string& key) {
-        put(key);
-    }
-
     void put(const std::string& key) {
         root = put(root, key, 0);
     }
@@ -150,10 +120,6 @@ private:
         else
             x->end = true;
 
-
-//        updateNodeSize(x);
-
-//        return x;  // AVL. sinon on aurait return x;
         return restoreBalance(x);  // AVL. sinon on aurait return x;
     }
 
