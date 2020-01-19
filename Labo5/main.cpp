@@ -191,8 +191,8 @@ int main() {
         }
     }
 
-    std::cout << "Temps de creation du dico:  " << dico.getCreation() << " microseconds" << std::endl;
-    std::cout << "Temps de search du dico:  " << dico.getSearch() << " microseconds" << std::endl;
+    std::cout << "Temps de chargement du dico                  :  " << dico.getCreation() << " microseconds" << std::endl;
+    std::cout << "Temps pour produire le resultat final du dico:  " << dico.getSearch() << " microseconds" << std::endl;
     return 0;
 }
 
