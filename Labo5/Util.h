@@ -15,8 +15,11 @@
 #define UTIL_H
 #include <string>
 
-
-bool stringToLower(std::string& element2);
+/*
+ * @param str   une chaîne de caractères
+ * @return  true si la chaîne ne contient pas de caractère numérique et a été passée en minuscules, false sinon
+ */
+bool stringToLower(std::string& str);
 
 #endif /* UTIL_H */
 

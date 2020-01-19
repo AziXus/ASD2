@@ -9,4 +9,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 add_executable(Labo5 main.cpp
         AVLTree.h
-        BinarySearchTree.h TernarySearchTree.cpp TernarySearchTree.h Util.cpp Util.h)
+        BinarySearchTree.h TernarySearchTree.h Util.cpp Util.h)

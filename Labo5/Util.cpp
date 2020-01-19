@@ -6,8 +6,8 @@
 
 #include "Util.h"
 
-bool stringToLower(std::string& element2){
-    for(char &c : element2){
+bool stringToLower(std::string& str){
+    for(char &c : str){
         if(isdigit(c)){
             return false;
         }
