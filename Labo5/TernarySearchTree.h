@@ -137,11 +137,11 @@ private:
         if(x==nullptr) return 0;
         return height(x->left) - height(x->right);
     }
-    
+
     /**
      * Permet de rendre le TST équilibré à nouveau (pas d'équilibrage avec l'arbre du milieu
-     * @param x 
-     * @return 
+     * @param x
+     * @return
      */
     Node* restoreBalance(Node* x) {
 
@@ -180,6 +180,11 @@ public:
         return height(root);
     }
 private:
+    /**
+     * Fonction privée récursive retournant la hauteur du noeud
+     * @param x noeud à analyser
+     * @return hauteur de l'arbre
+     */
     int height(Node* x) {
         if ( x == nullptr )
             return -1;
@@ -187,6 +192,11 @@ private:
     }
 
 public:
+    /**
+     * Fonction publique retournant si la string est présente dans la TST
+     * @param key string à rechercher dans la TST
+     * @return true si la string est présente, false sinon
+     */
     bool get(const std::string& key) {
         Node* x = get(root, key, 0);
 
@@ -197,6 +207,13 @@ public:
     }
 
 private:
+    /**
+     * Fonction privée recursive retournant si la valeur est présente dans la TST
+     * @param x node de départ
+     * @param key string à rechercher dans le TST
+     * @param d taille du mot
+     * @return retourne le noeud final
+     */
     Node* get(Node* x, const std::string& key, size_t d) {
         if (x == nullptr)
             return nullptr;
