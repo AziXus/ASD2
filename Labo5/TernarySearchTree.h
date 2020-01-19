@@ -1,16 +1,9 @@
 /*
- -----------------------------------------------------------------------------------
- Laboratoire : <nn>
- Fichier     : TernarySearchTree.cpp
- Auteur(s)   : Robin Müller
- Date        : 10.01.2020
-
- But         : <à compléter>
-
- Remarque(s) : <à compléter>
-
- Compilateur : MinGW-g++ 6.3.0
- -----------------------------------------------------------------------------------
+ * File:   TernarySearchTree.h
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 6
+ *
+ * Description: Classe implémentant la structure d'un TST(TernarySearchTree)
  */
 #ifndef LABO5_TERNARYSEARCHTREE_H
 #define LABO5_TERNARYSEARCHTREE_H
