@@ -1,14 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Dictionary.h
- * Author: stéphane
+ * File:   Dictionnary.h
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 6
  *
- * Created on January 14, 2020, 1:06 PM
+ * Description: Classe permettant l'implémentation des 2 strcutures de stockage et recherhce
+ * de mots dans un dictionnaire
  */
 
 #ifndef DICTIONARY_H
@@ -22,41 +18,59 @@
 #include "TernarySearchTree.h"
 
 /**
- * 
+ * Classe Dictionnay implémentant les fonctions de base pour générer un dictionnaire 
  */
 class Dictionary {
 public:
-    Dictionary(){
-    }
     /**
-     * Permet de générer les différents mots qui seront contenus dans le dictionnaire  
+     * Permet d'insérer les différents mots dans le dictionnaire  
      * @param filename nom du fichier à partir duquel trouver les mots
      */
-    void genererDico(std::string filename){
+    void genererDico(const std::string& filename){
         std::string line;
         bool hasNoDigit = false;
         std::ifstream s(filename);
         while (std::getline(s, line)) {
             hasNoDigit = stringToLower(line);
-            //Si un mot contient un digit pas d'ajout dans le dico
+            //Si un mot contient un digit pas d'ajout dans le dictionnaire
             if(hasNoDigit){
+                //Stockage d'un temps de départ
                 std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
                 insert(line);
+                //Calcul du temps qu'a pris l'insertion
                 std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
+                //Ajout du temps au temps total de toutes les dernières insertion(donnera le temps de création)
                 creationTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
             }
         }
         s.close();
     }
 
+    /**
+     * Fonction abstraite permettant de définir une insertion dans un dictionnaire
+     * @param str string constante étant le mot à insérer
+     */
     virtual void insert(const std::string& str)=0;
 
+    /**
+     * Fonction abstraite permettant de définir l'appel à la fonction qui permet de définir 
+     * si un mot est contenu dans un dictionnaire
+     * @param str string constante étant le mot à trouver
+     */
     virtual bool contains(const std::string& str)=0;
     
+    /**
+     * Fonction permettant de retourner la variable indiquant le temps de création du dictionnaire
+     * @return un entier long étant le temps de création
+     */
     long getCreation(){
         return creationTime;
     }
     
+    /**
+     * Fonction permttant de retourner la varibale indiquant le temps de recherche dans un dictionnaire
+     * @return un entier long étant le temps de recherche
+     */
     long getSearch(){
         return searchTime;
     }
@@ -94,17 +108,17 @@ public:
     }
 
     /**
-     * Function permettant de vérifier si un mot est contenu dans le dictionnaire 
+     * Fonction redéfinie permettant de vérifier si un mot est contenu dans le dictionnaire 
      * @param str string étant le mot recherché
      * @return vrai si le mot est trouvé, faux sinon
      */
     bool contains(const std::string& str) override {
-        //Lancer un temp de départ pour vérifier le temps d'une recherche
+        //Lance un temp de départ pour vérifier le temps total d'une recherche
         std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
         bool b = dico.find(str) != dico.end();
         //Calcul du temps de recherche
         std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
-        //Stockage du temps dans une variable allant contenir le temps totals de toutes les recherches effectuées
+        //Stockage du temps dans une variable allant contenir le temps total de toutes les recherches effectuées
         this->searchTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
         return b;
     }
@@ -114,20 +128,40 @@ private:
     std::unordered_set<std::string> dico;
 };
 
+/**
+ * Classe permettant de générer un dictionnaire en utilisant l'implémenation d'un TST
+ * @param filename
+ */
 class DicoTST : public Dictionary {
 public:
-    DicoTST(std::string filename){
+    /**
+     * Constructeur de la classe permet de générer un dictionnaire
+     * @param filename string étant le nom du fichier depuis lequel générer le dictionnaire
+     */
+    DicoTST(const std::string& filename){
         genererDico(filename);
     }
 
+    /**
+     * Fonction redéfinie permettant d'insérer un mot dans le dictionnaire
+     * @param str string étant le mot à insérer
+     */
     void insert(const std::string& str) override{
         dico.put(str);
     }
 
+    /**
+     * Fonction redéfinie permettant de savoir si un mot est contenu dans le dictionnaire
+     * @param str string étant le mot à trouver
+     * @return vrai si le mot a été trouver, faux sinon
+     */
     bool contains(const std::string& str) override{
+        //Lance un temp de départ pour vérifier le temps total d'une recherche
         std::chrono::high_resolution_clock::time_point debut = std::chrono::high_resolution_clock::now();
+        //Calcul du temps de recherche
         bool b = dico.contains(str);
-        std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;
+        std::chrono::high_resolution_clock::duration temps = std::chrono::high_resolution_clock::now() - debut;        
+        //Stockage du temps dans une variable allant contenir le temps total de toutes les recherches effectuées
         this->searchTime += std::chrono::duration_cast<std::chrono::microseconds>(temps).count();
         return b;
     }
