@@ -1,7 +1,7 @@
 /*
  * File:   Dictionnary.h
  * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
- * Labo 6
+ * Labo 5
  *
  * Description: Classe permettant l'implémentation des 2 strcutures de stockage et recherhce
  * de mots dans un dictionnaire

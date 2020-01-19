@@ -1,7 +1,7 @@
 /*
  * File:   TernarySearchTree.h
  * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
- * Labo 6
+ * Labo 5
  *
  * Description: Classe implémentant la structure d'un TST(TernarySearchTree)
  */

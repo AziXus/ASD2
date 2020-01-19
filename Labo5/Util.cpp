@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * File:   util.cpp
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 5
+ *
+ * Description: Utilitaires nécessaires au correcteur orthographique.
  */
 
 #include "Util.h"
@@ -26,7 +28,6 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
-// trim from start (in place)
 inline void ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
         if(ch == '\'')
@@ -35,7 +36,6 @@ inline void ltrim(std::string &s) {
     }));
 }
 
-// trim from end (in place)
 inline void rtrim(std::string &s) {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
         if(ch == '\'')
@@ -44,17 +44,13 @@ inline void rtrim(std::string &s) {
     }).base(), s.end());
 }
 
-// trim from both ends (in place)
 inline void trim(std::string &s) {
     ltrim(s);
     rtrim(s);
 }
 
-void lectureDonnees(std::string filename, std::list<std::string>& donnees){
+void lectureDonnees(const std::string filename, std::list<std::string>& donnees){
     std::string line;
-    // '—'
-    char delims[] = {' ', '-', '[', ']'};
-    size_t size = 3;
     bool hasNoDigit = false;
     std::ifstream s(filename);
     while (std::getline(s, line)) {

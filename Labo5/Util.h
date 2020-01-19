@@ -1,14 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Util.h
- * Author: stéphane
+ * File:   util.h
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 5
  *
- * Created on January 14, 2020, 1:19 PM
+ * Description: Utilitaires nécessaires au correcteur orthographique.
  */
 
 #ifndef UTIL_H
@@ -20,25 +15,13 @@
 #include <fstream>
 #include <algorithm>
 
-/*#include <algorithm>
-#include <functional>
-#include <cctype>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <limits>
-#include <chrono>
-#include <list>
-#include <unordered_set>
-#include "Dictionary.h"*/
-
-/*
+/**
  * @param str   une chaîne de caractères
  * @return  true si la chaîne ne contient pas de caractère numérique et a été passée en minuscules, false sinon
  */
 bool stringToLower(std::string& str);
 
-/*
+/**
  * @brief Extrait des mots d'un string selon un caractère de délimitation donné
  *
  * @param s     une chaîne de caractères
@@ -47,25 +30,68 @@ bool stringToLower(std::string& str);
  */
 std::vector<std::string> split(const std::string &s, char delim);
 
-// trim from start (in place)
+/**
+ * @brief trim from start (in place)
+ *
+ * @param s     une chaîne de caractères
+ */
 inline void ltrim(std::string &s);
 
-// trim from end (in place)
+/**
+ * @brief trim from end (in place)
+ *
+ * @param s     une chaîne de caractères
+ */
 inline void rtrim(std::string &s);
 
-// trim from both ends (in place)
+/**
+ * @brief trim from both ends (in place)
+ *
+ * @param s     une chaîne de caractères
+ */
 inline void trim(std::string &s);
 
+/**
+ * @brief Extrait les mots d'un fichier.
+ *
+ * @param filename  le nom du fichier à lire
+ * @param donnees   la liste de mots extraits du fichier
+ */
 void lectureDonnees(std::string filename, std::list<std::string>& donnees);
 
+/**
+ * @brief Génére toutes les combinaisons d'un mot orthographié.
+ * Méthode 1 : il y a une lettre en trop.
+ *
+ * @param str   un mot
+ * @param perm  la liste des combinaisons possibles
+ */
 void methode1(const std::string& str, std::list<std::string>& perm);
 
+/**
+ * @brief Génére toutes les combinaisons d'un mot orthographié.
+ * Méthode 2 : il manque une lettre.
+ *
+ * @param str   un mot
+ * @param perm  la liste des combinaisons possibles
+ */
 void methode2(const std::string& str, std::list<std::string>& perm);
 
-void methode3(const std::string& str, std::list<std::string>& perm);
-/*
+/**
+ * @brief Génére toutes les combinaisons d'un mot orthographié.
+ * Méthode 3 : une lettre a été mal saisie.
  *
- * test
+ * @param str   un mot
+ * @param perm  la liste des combinaisons possibles
+ */
+void methode3(const std::string& str, std::list<std::string>& perm);
+
+/**
+ * @brief Génére toutes les combinaisons d'un mot orthographié.
+ * Méthode 4 : 2 lettres ont été interverties.
+ *
+ * @param str   un mot
+ * @param perm  la liste des combinaisons possibles
  */
 void methode4(const std::string& str, std::list<std::string>& perm);
 

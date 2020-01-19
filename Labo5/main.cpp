@@ -1,14 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
  * File:   main.cpp
- * Author: stéphane
+ * Author: Müller Robin, Delhomme Claire, Teixeira Carvalho Stéphane
+ * Labo 5
  *
- * Created on January 10, 2020, 1:57 PM
+ * Description: Main de l'application correcteur orthographique. Lit un fichier et génère des propositions de
+ * corrections des mots mal orthographiés (non présents dans le dictionnaire).
  */
 
 #include <chrono>
@@ -19,7 +15,7 @@ using namespace std;
 
 #define DICTIONARY "dictionary.txt"
 #define INPUT_FILE "input_sh.txt"
-#define USE_TST
+#define USE_TST     //Commenter/dé-commenter pour passer d'un dictionnaire TST à STL
 
 int main() {
     std::list<string> donnees;
@@ -32,7 +28,6 @@ int main() {
 #else
     DicoSTL dico(DICTIONARY);
 #endif
-
     list<string> perm;
     for (const string& d : donnees) {
         if (dico.contains(d))
@@ -69,6 +64,7 @@ int main() {
                 myfile << "4:" << p << endl;
             }
         }
+
     }
 
     std::cout << "Temps de chargement du dico                  :  " << dico.getCreation() << " microseconds" << std::endl;
