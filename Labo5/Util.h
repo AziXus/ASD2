@@ -38,19 +38,14 @@
  */
 bool stringToLower(std::string& str);
 
-
 /*
- * @brief
+ * @brief Extrait des mots d'un string selon un caractère de délimitation donné
  *
  * @param s     une chaîne de caractères
  * @param delim le caractère de délimitation
- * @param elems le vecteur d'éléments extraits de la chaîne de caractères
+ * @return les mots extraits de la chaîne de caractères sous la forme d'un vecteur de string
  */
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
-
 std::vector<std::string> split(const std::string &s, char delim);
-
-std::vector<std::string> splitInterne(const std::string &s, char delim[], size_t size);
 
 // trim from start (in place)
 inline void ltrim(std::string &s);
