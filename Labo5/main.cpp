@@ -5,6 +5,17 @@
  *
  * Description: Main de l'application correcteur orthographique. Lit un fichier et génère des propositions de
  * corrections des mots mal orthographiés (non présents dans le dictionnaire).
+ * 
+ * Temps pour l'arbre avec l'implémentation TST : 
+ * 
+ * Temps de chargement du dico                  :  879273 microseconds
+ * Temps pour produire le resultat final du dico:  77687 microseconds
+ * 
+ * Temps pour l'arbre avec l'implémentation STL : 
+ * 
+ * Temps de chargement du dico                  :  453632 microseconds
+ * Temps pour produire le resultat final du dico:  66967 microseconds
+ * 
  */
 
 #include <chrono>
