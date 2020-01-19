@@ -83,6 +83,10 @@ public:
     }
 
 private:
+    /**
+     * Permet de supprimer un arbre dans sa totalité(sous-arbre gauche-droite-millieu)
+     * @param x noeud duquel il faut commencé à supprimer
+     */
     void deleteSubTree(Node* x) {
         if( x == nullptr) return;
         deleteSubTree( x->right );
@@ -91,16 +95,24 @@ private:
         delete x;
     }
 
+public:
     //
     // Insertion d'une paire cle / valeur.
     //
-public:
     void put(const std::string& key) {
         root = put(root, key, 0);
     }
 
 private:
+    /**
+     * Permet d'insérer un nouveau mot dans l'arbre TST
+     * @param x pointeur vers Node étant le noeud de départ
+     * @param key string représenté la valeur que l'onn veut ajouter dans l'arbre
+     * @param d size_t permettant de connaître le caractère qui est traité
+     * @return le noeud root en ayant un arbre équilibré
+     */
     Node* put(Node* x, const std::string& key, size_t d) {
+        //Si le noeud est vide c'est que on est arrivé au bout de l'arbre il faut donc ajouter un nouveau noeud 
         if (x==nullptr)
             x = new Node(key[d], false);
 
@@ -108,6 +120,8 @@ private:
             x->left = put(x->left, key, d);
         else if (key[d] > x->c)
             x->right = put(x->right, key, d);
+        //Si le numéro du caractère traité est plus petit que la taille du mot(pas de dépassement de la chaîne key) alors on passe au centre
+        //Passage au centre car nous sommes certains que le caractère traité est égal au noeud actuel car les 2 if précédent ont échoué
         else if (d < key.length() - 1)
             x->center = put(x->center, key, d + 1);
         else
@@ -123,6 +137,12 @@ private:
         if(x==nullptr) return 0;
         return height(x->left) - height(x->right);
     }
+    
+    /**
+     * Permet de rendre le TST équilibré à nouveau (pas d'équilibrage avec l'arbre du milieu
+     * @param x 
+     * @return 
+     */
     Node* restoreBalance(Node* x) {
 
         if(balance(x) < -1) // left < right-1
