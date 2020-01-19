@@ -11,30 +11,18 @@
  * Created on January 10, 2020, 1:57 PM
  */
 
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <functional>
-#include <cctype>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <limits>
 #include <chrono>
-#include <list>
-#include <unordered_set>
 #include "Dictionary.h"
-
 #include "Util.h"
-using namespace std;
 
-std::list<string> donnees;
+using namespace std;
 
 #define DICTIONARY "dictionary.txt"
 #define INPUT_FILE "input_wikipedia.txt"
 #define USE_TST
 
 int main() {
+    std::list<string> donnees;
     lectureDonnees(INPUT_FILE, donnees);
     ofstream myfile;
     myfile.open("correct.txt");
