@@ -108,11 +108,11 @@ private:
      * Permet d'insérer un nouveau mot dans l'arbre TST
      * @param x pointeur vers Node étant le noeud de départ
      * @param key string représenté la valeur que l'onn veut ajouter dans l'arbre
-     * @param d size_t permettant de connaître le caractère qui est traité
-     * @return le noeud root en ayant un arbre équilibré
+     * @param d size_t permettant de connaître l'emplacement du caractère qui est traité
+     * @return le noeud de départ en ayant un arbre équilibré
      */
     Node* put(Node* x, const std::string& key, size_t d) {
-        //Si le noeud est vide c'est que on est arrivé au bout de l'arbre il faut donc ajouter un nouveau noeud 
+        //Si le noeud est vide c'est que on est arrivé au bout de l'arbre il faut donc ajouter un nouveau noeud avec le nouveau caractère
         if (x==nullptr)
             x = new Node(key[d], false);
 
