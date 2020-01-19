@@ -66,9 +66,9 @@ public:
         long long searchTime = 0;
 };
 
-class DicoStl : public Dictionary {
+class DicoSTL : public Dictionary {
 public:
-    DicoStl(const std::string& filename) {
+    DicoSTL(const std::string& filename) {
         genererDico(filename);
     }
 

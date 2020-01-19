@@ -78,9 +78,6 @@ static inline void trim(std::string &s) {
 
 void lectureDonnees(string filename){
         std::string line;
-        // '—'
-        char delims[] = {' ', '-', '[', ']'};
-        size_t size = 3;
         bool hasNoDigit = false;
         std::ifstream s(filename);
         while (std::getline(s, line)) {
@@ -142,7 +139,7 @@ void methode4(const string& str, list<string>& perm) {
 }
 
 #define DICTIONARY "dictionary.txt"
-#define INPUT_FILE "input_wikipedia.txt"
+#define INPUT_FILE "input_sh.txt"
 #define USE_TST
 
 int main() {
